@@ -1,5 +1,5 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 
@@ -12,7 +12,7 @@ describe('PinCommentComponent', () => {
   let component: PinCommentComponent;
   let fixture: ComponentFixture<PinCommentComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ PinCommentComponent ],
       providers: [ { provide: Store, useClass: MockStore } ],

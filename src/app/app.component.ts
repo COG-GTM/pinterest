@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState, getProgressStatus, getNotifications } from './reducers/index';
 import { ShowProgressAction, CompleteProgressAction } from './actions/notification';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
-import {ToasterService, ToasterConfig} from 'angular2-toaster';
+import { SlimLoadingBarService } from './vendor/slim-loading-bar';
+import { ToasterService, ToasterConfig, ToastType } from 'angular2-toaster';
 
 declare var $:any;
 
@@ -57,7 +57,7 @@ export class AppComponent implements OnInit {
     this.store.select(getNotifications).subscribe(
       notifications => {
         notifications.forEach(toastr => {
-          this.toasterService.pop(toastr.type, toastr.title, toastr.body);
+          this.toasterService.pop(toastr.type as ToastType, toastr.title, toastr.body);
         });
       }
     );

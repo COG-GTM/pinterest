@@ -13,7 +13,7 @@ import { EffectsModule } from '@ngrx/effects';
 // import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { MasonryModule } from './vendor/masonry';
 import { InfiniteScrollModule } from 'angular2-infinite-scroll';
-import {SlimLoadingBarModule} from 'ng2-slim-loading-bar';
+import {SlimLoadingBarModule} from './vendor/slim-loading-bar';
 import { TagInputModule } from 'ngx-chips';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
@@ -81,7 +81,7 @@ import 'rxjs/add/observable/of';
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutes,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
     StoreModule.forRoot(reducers, { metaReducers, runtimeChecks: { strictStateImmutability: true, strictActionImmutability: false } }),
     // StoreDevtoolsModule.instrumentOnlyWithExtension(),
     StoreRouterConnectingModule.forRoot({ serializer: UrlRouterStateSerializer }),
