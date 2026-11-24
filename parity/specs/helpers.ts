@@ -58,6 +58,26 @@ export async function signIn(page: Page) {
 /** Blocks every other Firebase/Google network call so tests never depend on the internet. */
 export async function blockExternal(page: Page) {
   await page.context().route(/(firebaseapp\.com|firebaseio\.com|securetoken\.googleapis\.com|apis\.google\.com)/, route => route.abort());
+  // Firebase loads gapi.iframes (apis.google.com) before it opens the sign-in popup; answer with a no-op stub
+  // (registered last so it takes precedence over the abort above).
+  await page.context().route(/identitytoolkit\.googleapis\.com\/v1\/projects\?/, route =>
+    route.fulfill({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: JSON.stringify({ authorizedDomains: ['localhost'] }) }));
+  await page.context().route(/apis\.google\.com\/js\/api\.js/, route => {
+    const onload = new URL(route.request().url()).searchParams.get('onload');
+    route.fulfill({ status: 200, contentType: 'application/javascript', body: gapiStub(onload) });
+  });
+}
+
+function gapiStub(onload: string | null): string {
+  return `(function () {
+    var iframe = { register: function () {}, unregister: function () {}, send: function () {},
+      restyle: function () { return Promise.resolve(); },
+      ping: function (fn) { if (fn) { fn(); } return Promise.resolve(); } };
+    var context = { open: function (opts, cb) { return cb ? cb(iframe) : Promise.resolve(iframe); } };
+    window.gapi = { load: function (name, opts) { (typeof opts === 'function' ? opts : opts.callback)(); },
+      iframes: { CROSS_ORIGIN_IFRAMES_FILTER: function () { return true; }, Iframe: function () {}, getContext: function () { return context; } } };
+    ${onload ? `window[${JSON.stringify(onload)}] && window[${JSON.stringify(onload)}]();` : ''}
+  })();`;
 }
 
 export const pinCards = (page: Page) => page.locator('pin-pin-item .callout');
