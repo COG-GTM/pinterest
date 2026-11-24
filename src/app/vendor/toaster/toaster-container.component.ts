@@ -14,19 +14,21 @@ import { Toast } from './toast';
     selector: 'toaster-container',
     template: `
         <div class="toast-container" [ngClass]="[toasterconfig.positionClass]">
-            <div toastComp *ngFor="let toast of toasts" class="toast" [toast]="toast"
-                [toasterconfig]="toasterconfig"
-                [@toastState]="toasterconfig.animation"
-                [titleClass]="toasterconfig.titleClass"
-                [messageClass]="toasterconfig.messageClass"
+          @for (toast of toasts; track toast) {
+            <div toastComp class="toast" [toast]="toast"
+              [toasterconfig]="toasterconfig"
+              [@toastState]="toasterconfig.animation"
+              [titleClass]="toasterconfig.titleClass"
+              [messageClass]="toasterconfig.messageClass"
                 [ngClass]="[
                     toasterconfig.iconClasses[toast.type],
                     toasterconfig.typeClasses[toast.type]
                 ]"
-                (click)="click(toast)" (clickEvent)="childClick($event)"
-                (removeToastEvent)="removeToast($event)"
-            >
+              (click)="click(toast)" (clickEvent)="childClick($event)"
+              (removeToastEvent)="removeToast($event)"
+              >
             </div>
+          }
         </div>
         `,
     animations: Transitions,

@@ -23,19 +23,31 @@ import { ToasterConfig } from './toaster-config';
     selector: '[toastComp]',
     template: `
         <div class="toast-content">
-            <div [ngClass]="titleClass">{{toast.title}}</div>
-            <div [ngClass]="messageClass" [ngSwitch]="toast.bodyOutputType">
-                <div *ngSwitchCase="bodyOutputType.Component" #componentBody></div>
-                <div *ngSwitchCase="bodyOutputType.TrustedHtml" [innerHTML]="toast.body | trustHtml"></div>
-                <div *ngSwitchCase="bodyOutputType.Default">{{toast.body}}</div>
-            </div>
+          <div [ngClass]="titleClass">{{toast.title}}</div>
+          <div [ngClass]="messageClass">
+            @switch (toast.bodyOutputType) {
+              @case (bodyOutputType.Component) {
+                <div #componentBody></div>
+              }
+              @case (bodyOutputType.TrustedHtml) {
+                <div [innerHTML]="toast.body | trustHtml"></div>
+              }
+              @case (bodyOutputType.Default) {
+                <div>{{toast.body}}</div>
+              }
+            }
+          </div>
         </div>
-        <button class="toast-close-button" *ngIf="toast.showCloseButton" (click)="click($event, toast)"
+        @if (toast.showCloseButton) {
+          <button class="toast-close-button" (click)="click($event, toast)"
             [innerHTML]="toast.closeHtml | trustHtml">
-        </button>
-        <div *ngIf="toast.progressBar">
+          </button>
+        }
+        @if (toast.progressBar) {
+          <div>
             <div class="toast-progress-bar" [style.width]="progressBarWidth + '%'"></div>
-        </div>`,
+          </div>
+        }`,
     standalone: false
 })
 export class ToastComponent implements OnInit, AfterViewInit, OnDestroy {
