@@ -15,11 +15,10 @@ describe('PinCommentNewComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ PinCommentNewComponent ],
-      imports: [ ReactiveFormsModule ],
-      providers: [ { provide: Store, useClass: MockStore } ],
-      schemas: [ NO_ERRORS_SCHEMA ]
-    })
+    imports: [ReactiveFormsModule, PinCommentNewComponent],
+    providers: [{ provide: Store, useClass: MockStore }],
+    schemas: [NO_ERRORS_SCHEMA]
+})
     .compileComponents();
   }));
 

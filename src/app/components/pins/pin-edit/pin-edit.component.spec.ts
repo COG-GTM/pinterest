@@ -18,11 +18,10 @@ describe('PinEditComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ PinEditComponent ],
-      imports: [ RouterTestingModule, FormsModule, ReactiveFormsModule, NoopAnimationsModule, TagInputModule ],
-      providers: [ { provide: Store, useClass: MockStore } ],
-      schemas: [ NO_ERRORS_SCHEMA ]
-    })
+    imports: [RouterTestingModule, FormsModule, ReactiveFormsModule, NoopAnimationsModule, TagInputModule, PinEditComponent],
+    providers: [{ provide: Store, useClass: MockStore }],
+    schemas: [NO_ERRORS_SCHEMA]
+})
     .compileComponents();
   }));
 

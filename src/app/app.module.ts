@@ -54,19 +54,7 @@ firebase.initializeApp(firebaseConfig);
 
 // adding rx operators
 
-@NgModule({ declarations: [
-        AppComponent,
-        HeaderComponent,
-        FooterComponent,
-        PinsComponent,
-        PinItemComponent,
-        PinDetailComponent,
-        ModalComponent,
-        PinEditComponent,
-        PinCommentComponent,
-        PinCommentNewComponent
-    ],
-    bootstrap: [AppComponent], imports: [BrowserModule,
+@NgModule({ declarations: [AppComponent], bootstrap: [AppComponent], imports: [BrowserModule,
         FormsModule,
         ReactiveFormsModule,
         AppRoutes,
@@ -80,7 +68,15 @@ firebase.initializeApp(firebaseConfig);
         SlimLoadingBarModule.forRoot(),
         ToasterModule,
         TagInputModule,
-        BrowserAnimationsModule], providers: [
+        BrowserAnimationsModule, HeaderComponent,
+        FooterComponent,
+        PinsComponent,
+        PinItemComponent,
+        PinDetailComponent,
+        ModalComponent,
+        PinEditComponent,
+        PinCommentComponent,
+        PinCommentNewComponent], providers: [
         AuthenticationService,
         PinDataService,
         LoaderService,

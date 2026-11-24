@@ -5,7 +5,7 @@ import { AngularMasonryBrick } from './brick';
 const DIRECTIVES = [AngularMasonry, AngularMasonryBrick];
 
 @NgModule({
-    declarations: DIRECTIVES,
+    imports: [...DIRECTIVES],
     exports: DIRECTIVES
 })
 export class MasonryModule { }

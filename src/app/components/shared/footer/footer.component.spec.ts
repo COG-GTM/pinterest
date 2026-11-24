@@ -11,9 +11,9 @@ describe('FooterComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ FooterComponent ],
-      schemas: [ NO_ERRORS_SCHEMA ]
-    })
+    imports: [FooterComponent],
+    schemas: [NO_ERRORS_SCHEMA]
+})
     .compileComponents();
   }));
 

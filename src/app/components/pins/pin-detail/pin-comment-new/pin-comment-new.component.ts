@@ -2,16 +2,17 @@ import { User } from './../../../../models/user';
 import { Pin } from './../../../../models/pin';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Component, OnInit, Input } from '@angular/core';
 import * as fromRoot from '../../../../reducers';
 import * as comment from '../../../../actions/comment';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pin-pin-comment-new',
     templateUrl: './pin-comment-new.component.html',
     styleUrls: ['./pin-comment-new.component.scss'],
-    standalone: false
+    imports: [FormsModule, ReactiveFormsModule, AsyncPipe]
 })
 export class PinCommentNewComponent implements OnInit {
   commentForm: UntypedFormGroup;

@@ -9,6 +9,8 @@ import { ToasterConfig } from './toaster-config';
 import { ToasterService} from './toaster.service';
 import { IClearWrapper } from './clearWrapper';
 import { Toast } from './toast';
+import { NgClass } from '@angular/common';
+import { ToastComponent } from './toast.component';
 
 @Component({
     selector: 'toaster-container',
@@ -32,7 +34,7 @@ import { Toast } from './toast';
         </div>
         `,
     animations: Transitions,
-    standalone: false
+    imports: [NgClass, ToastComponent]
 })
 export class ToasterContainerComponent implements OnInit, OnDestroy {
     private addToastSubscriber: any;

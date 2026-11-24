@@ -12,17 +12,15 @@ import { AppComponent } from './app.component';
 describe('AppComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AppComponent
-      ],
-      imports: [ RouterTestingModule ],
-      providers: [
+    declarations: [AppComponent],
+    imports: [RouterTestingModule],
+    providers: [
         { provide: Store, useClass: MockStore },
         SlimLoadingBarService,
         ToasterService
-      ],
-      schemas: [ NO_ERRORS_SCHEMA ]
-    });
+    ],
+    schemas: [NO_ERRORS_SCHEMA]
+});
   });
 
   it('should create the app', waitForAsync(() => {

@@ -14,10 +14,10 @@ describe('PinCommentComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ PinCommentComponent ],
-      providers: [ { provide: Store, useClass: MockStore } ],
-      schemas: [ NO_ERRORS_SCHEMA ]
-    })
+    imports: [PinCommentComponent],
+    providers: [{ provide: Store, useClass: MockStore }],
+    schemas: [NO_ERRORS_SCHEMA]
+})
     .compileComponents();
   }));
 

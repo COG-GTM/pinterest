@@ -17,11 +17,10 @@ describe('PinDetailComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ PinDetailComponent ],
-      imports: [ RouterTestingModule, ReactiveFormsModule, NoopAnimationsModule ],
-      providers: [ { provide: Store, useClass: MockStore } ],
-      schemas: [ NO_ERRORS_SCHEMA ]
-    })
+    imports: [RouterTestingModule, ReactiveFormsModule, NoopAnimationsModule, PinDetailComponent],
+    providers: [{ provide: Store, useClass: MockStore }],
+    schemas: [NO_ERRORS_SCHEMA]
+})
     .compileComponents();
   }));
 

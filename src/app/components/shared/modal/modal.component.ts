@@ -24,8 +24,7 @@ declare var $: any;
                 animate(300, style({ transform: 'translateY(100%)' }))
             ])
         ])
-    ],
-    standalone: false
+    ]
 })
 
 export class ModalComponent implements OnInit, OnDestroy, AfterViewInit {

@@ -11,6 +11,10 @@ import * as comment from '../../../actions/comment';
 import { User } from '../../../models/user';
 import { Comment } from '../../../models/comment';
 import { UntypedFormBuilder } from '@angular/forms';
+import { ModalComponent } from '../../shared/modal/modal.component';
+import { PinCommentComponent } from './pin-comment/pin-comment.component';
+import { PinCommentNewComponent } from './pin-comment-new/pin-comment-new.component';
+import { AsyncPipe } from '@angular/common';
 
 declare var $: any;
 declare var Foundation: any;
@@ -36,7 +40,7 @@ declare var Foundation: any;
             ])
         ])
     ],
-    standalone: false
+    imports: [ModalComponent, PinCommentComponent, PinCommentNewComponent, AsyncPipe]
 })
 export class PinDetailComponent implements OnInit {
   subscription: Subscription;

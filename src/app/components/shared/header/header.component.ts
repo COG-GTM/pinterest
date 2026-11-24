@@ -8,13 +8,17 @@ import * as fromRoot from '../../../reducers';
 import {Observable} from 'rxjs';
 import {LoginSuccessAction} from '../../../actions/user-auth';
 import { GetPinsAction, SearchPinAction } from '../../../actions/pin';
+import { RouterLink } from '@angular/router';
+import { TagInputModule } from 'ngx-chips';
+import { FormsModule } from '@angular/forms';
+import { NgClass, AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pin-header',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    imports: [RouterLink, TagInputModule, FormsModule, NgClass, AsyncPipe]
 })
 
 export class HeaderComponent implements OnInit {

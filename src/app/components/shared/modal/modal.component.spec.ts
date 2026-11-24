@@ -13,10 +13,9 @@ describe('ModalComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ModalComponent ],
-      imports: [ NoopAnimationsModule ],
-      schemas: [ NO_ERRORS_SCHEMA ]
-    })
+    imports: [NoopAnimationsModule, ModalComponent],
+    schemas: [NO_ERRORS_SCHEMA]
+})
     .compileComponents();
   }));
 

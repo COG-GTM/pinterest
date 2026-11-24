@@ -6,12 +6,9 @@ import { ToasterService } from './toaster.service';
 import { TrustHtmlPipe } from './trust-html.pipe';
 
 @NgModule({
-    imports: [CommonModule],
-    declarations: [
-        ToastComponent,
+    imports: [CommonModule, ToastComponent,
         ToasterContainerComponent,
-        TrustHtmlPipe
-    ],
+        TrustHtmlPipe],
     exports: [
         ToasterContainerComponent,
         ToastComponent

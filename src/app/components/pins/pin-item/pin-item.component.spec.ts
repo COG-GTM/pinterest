@@ -15,11 +15,10 @@ describe('PinItemComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ PinItemComponent ],
-      imports: [ RouterTestingModule ],
-      providers: [ { provide: Store, useClass: MockStore } ],
-      schemas: [ NO_ERRORS_SCHEMA ]
-    })
+    imports: [RouterTestingModule, PinItemComponent],
+    providers: [{ provide: Store, useClass: MockStore }],
+    schemas: [NO_ERRORS_SCHEMA]
+})
     .compileComponents();
   }));
 

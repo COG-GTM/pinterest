@@ -3,8 +3,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Pipe({
     name: 'trustHtml',
-    pure: true,
-    standalone: false
+    pure: true
 })
 export class TrustHtmlPipe implements PipeTransform {
     constructor(private sanitizer: DomSanitizer) {

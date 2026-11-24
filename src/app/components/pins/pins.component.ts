@@ -5,13 +5,19 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../reducers';
 import * as pin from '../../actions/pin';
+import { AngularMasonry } from '../../vendor/masonry/masonry';
+import { AngularMasonryBrick } from '../../vendor/masonry/brick';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
+import { PinItemComponent } from './pin-item/pin-item.component';
+import { RouterOutlet } from '@angular/router';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'pin-items',
     templateUrl: './pins.component.html',
     styleUrls: ['./pins.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    imports: [AngularMasonry, AngularMasonryBrick, InfiniteScrollDirective, PinItemComponent, RouterOutlet, AsyncPipe]
 })
 
 export class PinsComponent implements OnInit {

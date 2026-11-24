@@ -16,11 +16,10 @@ describe('HeaderComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ HeaderComponent ],
-      imports: [ RouterTestingModule ],
-      providers: [ { provide: Store, useClass: MockStore }, { provide: AuthenticationService, useValue: {} } ],
-      schemas: [ NO_ERRORS_SCHEMA ]
-    })
+    imports: [RouterTestingModule, HeaderComponent],
+    providers: [{ provide: Store, useClass: MockStore }, { provide: AuthenticationService, useValue: {} }],
+    schemas: [NO_ERRORS_SCHEMA]
+})
     .compileComponents();
   }));
 

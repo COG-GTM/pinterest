@@ -7,8 +7,7 @@ import { SlimLoadingBarService, SlimLoadingBarEventType } from './slim-loading-b
 <div class="slim-loading-bar">
     <div class="slim-loading-bar-progress" [style.width]="progress + '%'" [style.backgroundColor]="color" [style.color]="color"
         [style.height]="height" [style.opacity]="show ? '1' : '0'"></div>
-</div>`,
-    standalone: false
+</div>`
 })
 export class SlimLoadingBarComponent implements OnInit {
   @Input() progress = '0';

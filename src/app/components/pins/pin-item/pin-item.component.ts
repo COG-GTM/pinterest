@@ -4,6 +4,8 @@ import { User } from '../../../models/user';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../../reducers';
 import { Observable } from 'rxjs';
+import { RouterLink } from '@angular/router';
+import { AsyncPipe, UpperCasePipe } from '@angular/common';
 
 declare var $:any;
 declare var Foundation:any;
@@ -14,7 +16,7 @@ declare var Foundation:any;
     styleUrls: ['./pin-item.component.css'],
     inputs: ['pin'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    imports: [RouterLink, AsyncPipe, UpperCasePipe]
 })
 export class PinItemComponent implements OnInit {
   pin : Pin;

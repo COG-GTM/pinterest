@@ -3,10 +3,13 @@ import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as fromRoot from '../../../reducers';
 import { Store } from '@ngrx/store';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import * as pin from '../../../actions/pin';
 import { Observable } from 'rxjs';
 import { User } from '../../../models/user';
+import { ModalComponent } from '../../shared/modal/modal.component';
+import { TagInputModule } from 'ngx-chips';
+import { NgClass, AsyncPipe, UpperCasePipe } from '@angular/common';
 
 declare var $: any;
 declare var Foundation: any;
@@ -15,7 +18,7 @@ declare var Foundation: any;
     selector: 'pin-pin-edit',
     templateUrl: './pin-edit.component.html',
     styleUrls: ['./pin-edit.component.scss'],
-    standalone: false
+    imports: [ModalComponent, FormsModule, ReactiveFormsModule, TagInputModule, NgClass, AsyncPipe, UpperCasePipe]
 })
 export class PinEditComponent implements OnInit, AfterViewInit {
   pinForm: UntypedFormGroup;

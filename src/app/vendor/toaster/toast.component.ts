@@ -18,6 +18,8 @@ import {
 import { Toast } from './toast';
 import { BodyOutputType } from './bodyOutputType';
 import { ToasterConfig } from './toaster-config';
+import { NgClass } from '@angular/common';
+import { TrustHtmlPipe } from './trust-html.pipe';
 
 @Component({
     selector: '[toastComp]',
@@ -48,7 +50,7 @@ import { ToasterConfig } from './toaster-config';
             <div class="toast-progress-bar" [style.width]="progressBarWidth + '%'"></div>
           </div>
         }`,
-    standalone: false
+    imports: [NgClass, TrustHtmlPipe]
 })
 export class ToastComponent implements OnInit, AfterViewInit, OnDestroy {
     @Input() toasterconfig: ToasterConfig;
