@@ -2,7 +2,7 @@ import { User } from './../../../../models/user';
 import { Pin } from './../../../../models/pin';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit, Input } from '@angular/core';
 import * as fromRoot from '../../../../reducers';
 import * as comment from '../../../../actions/comment';
@@ -13,7 +13,7 @@ import * as comment from '../../../../actions/comment';
   styleUrls: ['./pin-comment-new.component.scss']
 })
 export class PinCommentNewComponent implements OnInit {
-  commentForm: FormGroup;
+  commentForm: UntypedFormGroup;
   userIsAuthenticated: Observable<boolean>;
   @Input() authUser: User;
   @Input() pin: Pin;
@@ -21,7 +21,7 @@ export class PinCommentNewComponent implements OnInit {
 
   constructor(
     private store: Store<fromRoot.AppState>,
-    private formBuilder: FormBuilder
+    private formBuilder: UntypedFormBuilder
   ) {
     this.userIsAuthenticated = this.store.select(fromRoot.getUserAuthStatus);
   }

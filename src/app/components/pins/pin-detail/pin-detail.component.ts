@@ -10,7 +10,7 @@ import * as pin from '../../../actions/pin';
 import * as comment from '../../../actions/comment';
 import { User } from '../../../models/user';
 import { Comment } from '../../../models/comment';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 
 declare var $: any;
 declare var Foundation: any;
@@ -49,7 +49,7 @@ export class PinDetailComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private store: Store<fromRoot.AppState>,
-    private formBuilder: FormBuilder
+    private formBuilder: UntypedFormBuilder
   ) {
     this.pin = this.store.select(fromRoot.getSelectedPin);
     this.comments = this.store.select(fromRoot.getSelectedPinComments);

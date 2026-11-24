@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as fromRoot from '../../../reducers';
 import { Store } from '@ngrx/store';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import * as pin from '../../../actions/pin';
 import { Observable } from 'rxjs/Observable';
 import { User } from '../../../models/user';
@@ -17,7 +17,7 @@ declare var Foundation: any;
   styleUrls: ['./pin-edit.component.scss']
 })
 export class PinEditComponent implements OnInit, AfterViewInit {
-  pinForm: FormGroup;
+  pinForm: UntypedFormGroup;
   title: string;
   isNew = true;
   pin: any;
@@ -30,7 +30,7 @@ export class PinEditComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<fromRoot.AppState>,
-    private formBuilder: FormBuilder
+    private formBuilder: UntypedFormBuilder
   ) {
     this.authUser = this.store.select(fromRoot.getAuthUser);
   }

@@ -1,24 +1,11 @@
 {
+  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "downlevelIteration": true,
-    "sourceMap": true,
-    "declaration": false,
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "lib": [
-      "es2018",
-      "dom"
-    ],
     "outDir": "../out-tsc/spec",
-    "module": "es2020",
-    "target": "es2015",
-    "baseUrl": "",
     "types": [
       "jasmine",
       "node"
-    ],
-    "allowSyntheticDefaultImports": true,
-    "skipLibCheck": true
+    ]
   },
   "files": [
     "test.ts",
