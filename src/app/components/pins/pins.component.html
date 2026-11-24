@@ -1,4 +1,4 @@
-@if (!(pins | async).length) {
+@if (!pins().length) {
   <div class="dashboard-grid large-12 columns">
     <masonry id="container">
       @for (item of createRange(15); track item) {
@@ -29,7 +29,7 @@
   [infiniteScrollThrottle]="500"
   (scrolled)="onScroll()">
   <masonry id="container" [useImagesLoaded]="true">
-    @for (pin of pins | async; track pin) {
+    @for (pin of pins(); track pin) {
       <masonry-brick class="brick">
         <pin-pin-item [pin]="pin"></pin-pin-item>
       </masonry-brick>

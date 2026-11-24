@@ -1,4 +1,4 @@
-@if (userIsAuthenticated | async) {
+@if (userIsAuthenticated()) {
   <form [formGroup]="commentForm" (ngSubmit)="onCommentSave()">
     <div class="input-group">
       <span class="input-group-label comment-user-img">

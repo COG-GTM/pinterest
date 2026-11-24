@@ -1,24 +1,24 @@
 import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {AuthenticationService} from '../../../services/authentication';
 import {User} from '../../../models/user';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../../reducers';
 import * as userAuth from '../../../actions/user-auth';
 import * as fromRoot from '../../../reducers';
-import {Observable} from 'rxjs';
 import {LoginSuccessAction} from '../../../actions/user-auth';
 import { GetPinsAction, SearchPinAction } from '../../../actions/pin';
 import { RouterLink } from '@angular/router';
 import { TagInputModule } from 'ngx-chips';
 import { FormsModule } from '@angular/forms';
-import { NgClass, AsyncPipe } from '@angular/common';
+import { NgClass } from '@angular/common';
 
 @Component({
     selector: 'pin-header',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [RouterLink, TagInputModule, FormsModule, NgClass, AsyncPipe]
+    imports: [RouterLink, TagInputModule, FormsModule, NgClass]
 })
 
 export class HeaderComponent implements OnInit {
@@ -26,17 +26,9 @@ export class HeaderComponent implements OnInit {
   private store = inject<Store<AppState>>(Store);
 
   title = 'PinWork';
-  user: Observable < User >;
-  userIsAuthenticated: Observable < boolean >;
+  readonly user = toSignal(this.store.select(fromRoot.getAuthUser));
+  readonly userIsAuthenticated = toSignal(this.store.select(fromRoot.getUserAuthStatus));
   items: string[];
-
-  constructor()
-  {
-    const store = this.store;
-
-    this.user = store.select(fromRoot.getAuthUser);
-    this.userIsAuthenticated = store.select(fromRoot.getUserAuthStatus);
-  }
 
   ngOnInit() {
     this

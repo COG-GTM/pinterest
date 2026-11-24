@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -14,7 +15,6 @@ import { UntypedFormBuilder } from '@angular/forms';
 import { ModalComponent } from '../../shared/modal/modal.component';
 import { PinCommentComponent } from './pin-comment/pin-comment.component';
 import { PinCommentNewComponent } from './pin-comment-new/pin-comment-new.component';
-import { AsyncPipe } from '@angular/common';
 
 declare var $: any;
 declare var Foundation: any;
@@ -40,7 +40,7 @@ declare var Foundation: any;
             ])
         ])
     ],
-    imports: [ModalComponent, PinCommentComponent, PinCommentNewComponent, AsyncPipe]
+    imports: [ModalComponent, PinCommentComponent, PinCommentNewComponent]
 })
 export class PinDetailComponent implements OnInit {
   private router = inject(Router);
@@ -50,17 +50,11 @@ export class PinDetailComponent implements OnInit {
 
   subscription: Subscription;
   pinIndex: string;
-  pin: Observable<Pin>;
-  comments: Observable<Comment[]>;
-  authUser: Observable<User>;
-  canAccessPin: Observable<boolean>;
-
-  constructor() {
-    this.pin = this.store.select(fromRoot.getSelectedPin);
-    this.comments = this.store.select(fromRoot.getSelectedPinComments);
-    this.authUser = this.store.select(fromRoot.getAuthUser);
-    this.canAccessPin = this.store.select(fromRoot.getPinAccessStatus);
-  }
+  private pin$: Observable<Pin> = this.store.select(fromRoot.getSelectedPin);
+  readonly pin = toSignal(this.pin$);
+  readonly comments = toSignal(this.store.select(fromRoot.getSelectedPinComments), { initialValue: [] as Comment[] });
+  readonly authUser = toSignal(this.store.select(fromRoot.getAuthUser));
+  readonly canAccessPin = toSignal(this.store.select(fromRoot.getPinAccessStatus));
 
   ngOnInit() {
     this.subscription = this.route.params.subscribe(
@@ -78,7 +72,7 @@ export class PinDetailComponent implements OnInit {
   }
 
   loadModal() {
-    this.pin.subscribe(
+    this.pin$.subscribe(
       pin => {
         try {
           let el = $(`.pinModal-${this.pinIndex}`);

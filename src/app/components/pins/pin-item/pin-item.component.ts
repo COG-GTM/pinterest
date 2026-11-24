@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject, input } from '@angular/core';
 import { Pin } from '../../../models/pin';
 import { User } from '../../../models/user';
 import { Store } from '@ngrx/store';
@@ -14,24 +14,23 @@ declare var Foundation:any;
     selector: 'pin-pin-item',
     templateUrl: './pin-item.component.html',
     styleUrls: ['./pin-item.component.css'],
-    inputs: ['pin'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [RouterLink, AsyncPipe, UpperCasePipe]
 })
 export class PinItemComponent implements OnInit {
   private store = inject<Store<fromRoot.AppState>>(Store);
 
-  pin : Pin;
+  readonly pin = input<Pin>();
   user: Observable<User>;
 
   ngOnInit() {
-    this.user = this.store.select(fromRoot.getUserById(this.pin && this.pin.user_id))
+    this.user = this.store.select(fromRoot.getUserById(this.pin()?.user_id))
   }
 
   onClick() {
     try{
       setTimeout(() => {
-        let el = $('.pinModal-' + this.pin.id);
+        let el = $('.pinModal-' + this.pin().id);
         if (el.length) {
           if (el.data('zfPlugin')) {
             el.foundation('open');
@@ -41,7 +40,7 @@ export class PinItemComponent implements OnInit {
           }
         }
       }, 100);
-    }catch(e){console.log('.pinModal-' + this.pin.id + e)};
+    }catch(e){console.log('.pinModal-' + this.pin().id + e)};
   }
 
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit, AfterViewInit, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as fromRoot from '../../../reducers';
@@ -9,7 +10,7 @@ import { Observable } from 'rxjs';
 import { User } from '../../../models/user';
 import { ModalComponent } from '../../shared/modal/modal.component';
 import { TagInputModule } from 'ngx-chips';
-import { NgClass, AsyncPipe, UpperCasePipe } from '@angular/common';
+import { NgClass, UpperCasePipe } from '@angular/common';
 
 declare var $: any;
 declare var Foundation: any;
@@ -18,7 +19,7 @@ declare var Foundation: any;
     selector: 'pin-pin-edit',
     templateUrl: './pin-edit.component.html',
     styleUrls: ['./pin-edit.component.scss'],
-    imports: [ModalComponent, FormsModule, ReactiveFormsModule, TagInputModule, NgClass, AsyncPipe, UpperCasePipe]
+    imports: [ModalComponent, FormsModule, ReactiveFormsModule, TagInputModule, NgClass, UpperCasePipe]
 })
 export class PinEditComponent implements OnInit, AfterViewInit {
   private route = inject(ActivatedRoute);
@@ -32,12 +33,8 @@ export class PinEditComponent implements OnInit, AfterViewInit {
   pin: any;
   pinIndex: string;
   subscription: Subscription;
-  authUser: Observable<User>;
+  readonly authUser = toSignal(this.store.select(fromRoot.getAuthUser));
   pinTags: string[];
-
-  constructor() {
-    this.authUser = this.store.select(fromRoot.getAuthUser);
-  }
 
   ngOnInit() {
     this.loadModal();

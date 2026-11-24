@@ -35,13 +35,13 @@
           </div>
 
           <div class="large-6 small-6">
-            @if ((userIsAuthenticated | async)) {
+            @if (userIsAuthenticated()) {
               <a [routerLink]="['pins', 'new']" class="new-Pin-btn">
                 <span class="fa fa-thumb-tack fa-2x"></span>
               </a>
             }
 
-            @if (!(userIsAuthenticated | async)) {
+            @if (!userIsAuthenticated()) {
               <a (click)="login('google')" class="new-Pin-btn">
                 <span class="fa fa-thumb-tack fa-2x"
                   data-tooltip aria-haspopup="true"
@@ -52,7 +52,7 @@
         </li>
 
         <li class="large-1 small-1 columns text-right"
-          [ngClass]="{hide: (userIsAuthenticated | async)}">
+          [ngClass]="{hide: userIsAuthenticated()}">
           <ul class="dropdown menu text-center" data-dropdown-menu>
             <li>
               <a [routerLink]="['/']">Login</a>
@@ -69,10 +69,10 @@
         </li>
 
         <li class="large-1 small-1 columns text-right"
-          [ngClass]="{hide: !(userIsAuthenticated | async)}">
+          [ngClass]="{hide: !userIsAuthenticated()}">
           <ul class="dropdown menu text-center" data-dropdown-menu>
             <li>
-              <img aria-hidden=true [src]="(user | async)?.avatar" class="avatar"/>
+              <img aria-hidden=true [src]="user()?.avatar" class="avatar"/>
               <ul class="menu vertical">
                 <li class="text-left">
                   <a (click)="logout()">
