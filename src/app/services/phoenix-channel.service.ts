@@ -3,7 +3,7 @@ import { Socket } from "phoenix_js"
 import { environment } from '../../environments/environment';
 import { Store } from '@ngrx/store';
 import { AppState, getUserAuthStatus, getAuthUser } from '../reducers/index';
-import { storeFreeze } from 'ngrx-store-freeze';
+
 import { LoadCommentsSuccessAction, DeleteCommentSuccessAction } from '../actions/comment';
 import { User } from '../models/user';
 

@@ -2,7 +2,7 @@ import './rxjs-operators';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule, XHRBackend, RequestOptions } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import * as firebase from 'firebase/app';
 import { StoreModule, Store } from '@ngrx/store';
 import { StoreRouterConnectingModule, RouterStateSerializer } from '@ngrx/router-store';
@@ -52,15 +52,6 @@ export const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-export function httpInterceptor(
-  backend: XHRBackend,
-  defaultOptions: RequestOptions,
-  loaderService: LoaderService,
-  store: Store<AppState>
-) {
-  loaderService = new LoaderService(store);
-  return new HttpService(backend, defaultOptions, loaderService);
-}
 
 // adding rx operators
 import 'rxjs/add/operator/map';
@@ -88,12 +79,12 @@ import 'rxjs/add/observable/of';
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpModule,
+    HttpClientModule,
     AppRoutes,
     RouterModule.forRoot(routes),
-    StoreModule.forRoot(reducers, { metaReducers }),
+    StoreModule.forRoot(reducers, { metaReducers, runtimeChecks: { strictStateImmutability: true, strictActionImmutability: false } }),
     // StoreDevtoolsModule.instrumentOnlyWithExtension(),
-    StoreRouterConnectingModule,
+    StoreRouterConnectingModule.forRoot(),
     EffectsModule.forRoot([UserAuthEffects, PinEffects, CommentEffects, NotificationEffects]),
     MasonryModule,
     InfiniteScrollModule,
@@ -107,11 +98,7 @@ import 'rxjs/add/observable/of';
     AuthenticationService,
     PinDataService,
     LoaderService,
-    {
-      provide: HttpService,
-      useFactory: httpInterceptor,
-      deps: [ XHRBackend, RequestOptions, LoaderService, Store]
-    },
+    HttpService,
     ToasterService,
     CanActivateViaAuthGuard,
     CanEditPinGuard,

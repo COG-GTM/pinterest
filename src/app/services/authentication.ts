@@ -44,19 +44,19 @@ export class AuthenticationService {
 
   findbyIds(ids: string[]) {
     return  this.http.get('users')
-      .map(res => res.json().data)
+      .map((res: any) => res.data)
       .map(users => users.filter(user => ids.indexOf(user.id) > -1))
       .map(users => users.map(user => new User(user)))
   }
 
   findbyUID(id: string){
     return this.http.get(`users/${id}`)
-      .map(res => res.json().data)
+      .map((res: any) => res.data)
   }
 
   getAccessToken(userAuth) {
     return this.http.post("users/auth", userAuth)
-      .map(res => res.json())
+      .map((res: any) => res)
       .map(data => {
         let token = data.token;
         localStorage.setItem('access_token', token);

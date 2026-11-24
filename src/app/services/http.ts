@@ -1,196 +1,84 @@
 import { Injectable } from '@angular/core';
-import {
-  Http,
-  ConnectionBackend,
-  RequestOptions,
-  RequestOptionsArgs,
-  Response,
-  Headers,
-  Request
-} from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import { LoaderService } from "./loader";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { tap, finalize } from 'rxjs/operators';
+import { LoaderService } from './loader';
 import { environment } from '../../environments/environment';
-import { AppState } from '../reducers/index';
 
+export interface RequestOptionsArgs {
+  headers?: HttpHeaders;
+}
+
+/**
+ * API client: prefixes the API endpoint, adds the auth headers and drives the global loader.
+ * Responses are the parsed JSON body.
+ */
 @Injectable()
-export class HttpService extends Http {
+export class HttpService {
 
   constructor(
-    backend: ConnectionBackend,
-    defaultOptions: RequestOptions,
+    private http: HttpClient,
     public loaderService: LoaderService
-  ) {
-    super(backend, defaultOptions);
-  }
+  ) {}
 
-  /**
-   * Performs any type of http request.
-   * @param url
-   * @param options
-   * @returns {Observable<Response>}
-   */
-  request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
-    return super.request(url, options);
-  }
-
-  /**
-   * Performs a request with `get` http method.
-   * @param url
-   * @param options
-   * @returns {Observable<>}
-   */
   get(url: string, options?: RequestOptionsArgs): Observable<any> {
     this.requestInterceptor();
-    return super.get(this.getFullUrl(url), this.requestOptions(options))
-      .catch(this.onCatch)
-      .do((res: Response) => {
-        this.onSubscribeSuccess(res);
-      }, (error: any) => {
-        this.onSubscribeError(error);
-      })
-      .finally(() => {
-        this.onFinally();
-      });
+    return this.track(this.http.get(this.getFullUrl(url), this.requestOptions(options)));
   }
 
   getLocal(url: string, options?: RequestOptionsArgs): Observable<any> {
-    return super.get(url, options);
+    return this.http.get(url, options);
   }
 
-  /**
-   * Performs a request with `post` http method.
-   * @param url
-   * @param body
-   * @param options
-   * @returns {Observable<>}
-   */
   post(url: string, body: any, options?: RequestOptionsArgs): Observable<any> {
     this.requestInterceptor();
-    return super.post(this.getFullUrl(url), body, this.requestOptions(options))
-      .catch(this.onCatch)
-      .do((res: Response) => {
-        this.onSubscribeSuccess(res);
-      }, (error: any) => {
-        this.onSubscribeError(error);
-      })
-      .finally(() => {
-        this.onFinally();
-      });
+    return this.track(this.http.post(this.getFullUrl(url), body, this.requestOptions(options)));
   }
 
-  /**
-   * Performs a request with `put` http method.
-   * @param url
-   * @param body
-   * @param options
-   * @returns {Observable<>}
-   */
   put(url: string, body: any, options?: RequestOptionsArgs): Observable<any> {
     this.requestInterceptor();
-    return super.put(this.getFullUrl(url), body, this.requestOptions(options))
-      .catch(this.onCatch)
-      .do((res: Response) => {
-        this.onSubscribeSuccess(res);
-      }, (error: any) => {
-        this.onSubscribeError(error);
-      })
-      .finally(() => {
-        this.onFinally();
-      });
+    return this.track(this.http.put(this.getFullUrl(url), body, this.requestOptions(options)));
   }
 
-  /**
-   * Performs a request with `delete` http method.
-   * @param url
-   * @param options
-   * @returns {Observable<>}
-   */
   delete(url: string, options?: RequestOptionsArgs): Observable<any> {
     this.requestInterceptor();
-    return super.delete(this.getFullUrl(url), this.requestOptions(options))
-      .catch(this.onCatch)
-      .do((res: Response) => {
-        this.onSubscribeSuccess(res);
-      }, (error: any) => {
-        this.onSubscribeError(error);
-      })
-      .finally(() => {
-        this.onFinally();
-      });
+    return this.track(this.http.delete(this.getFullUrl(url), this.requestOptions(options)));
   }
 
+  private track(request: Observable<any>): Observable<any> {
+    return request.pipe(
+      tap(() => {}, () => this.onSubscribeError()),
+      finalize(() => this.onFinally())
+    );
+  }
 
-  /**
-   * Request options.
-   * @param options
-   * @returns {RequestOptionsArgs}
-   */
   private requestOptions(options?: RequestOptionsArgs): RequestOptionsArgs {
-    if (options == null) {
-      options = new RequestOptions();
-    }
+    options = options || {};
     if (options.headers == null) {
-      options.headers = new Headers({
+      options.headers = new HttpHeaders({
         'Authorization': `Basic ${environment.basic_auth_token}`,
-        'X-Auth-Token': localStorage.getItem('access_token')
+        'X-Auth-Token': localStorage.getItem('access_token') || ''
       });
     }
     return options;
   }
 
-  /**
-   * Build API url.
-   * @param url
-   * @returns {string}
-   */
   private getFullUrl(url: string): string {
     return environment.apiEndpoint + url;
   }
 
-  /**
-   * Request interceptor.
-   */
   private requestInterceptor(): void {
     this.loaderService.showPreloader();
   }
 
-  /**
-   * Response interceptor.
-   */
   private responseInterceptor(): void {
     this.loaderService.hidePreloader();
   }
 
-  /**
-   * Error handler.
-   * @param error
-   * @param caught
-   * @returns {ErrorObservable}
-   */
-  private onCatch(error: any, caught: Observable<any>): Observable<any> {
-    this.loaderService.popError();
-    return Observable.throw(error);
-  }
-
-  /**
-   * onSubscribeSuccess
-   * @param res
-   */
-  private onSubscribeSuccess(res: Response): void {
-  }
-
-  /**
-   * onSubscribeError
-   * @param error
-   */
-  private onSubscribeError(error: any): void {
+  private onSubscribeError(): void {
     this.loaderService.popError();
   }
 
-  /**
-   * onFinally
-   */
   private onFinally(): void {
     this.responseInterceptor();
   }

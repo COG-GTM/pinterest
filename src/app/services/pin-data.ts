@@ -38,7 +38,7 @@ export class PinDataService {
 
     return this
       .http.get(query)
-      .map(res => res.json().data)
+      .map((res: any) => res.data)
       .map(pins => {
         this.pinsOffset += pins.length;
         return pins.map(pin => new Pin(pin));
@@ -48,21 +48,21 @@ export class PinDataService {
   getPin(id: string): Observable<Pin> {
     return this
       .http.get(`pins/${id}`)
-      .map(res => res.json().data)
+      .map((res: any) => res.data)
       .map(pin => new Pin(pin))
   }
 
   addPin(pin: Pin): Observable<Pin> {
     return this
       .http.post('pins', {pin: pin})
-      .map(res => res.json().data)
+      .map((res: any) => res.data)
       .map(pin => new Pin(pin));
   }
 
   savePin(pin: Pin): Observable<Pin> {
     return this
       .http.put(`pins/${pin.id}`, { pin: pin })
-      .map(res => res.json().data)
+      .map((res: any) => res.data)
       .map(pin => new Pin(pin));
   }
 
@@ -75,14 +75,14 @@ export class PinDataService {
   getComments(pinId: string): Observable<Comment[]> {
     return this
       .http.get(`pins/${pinId}`)
-      .map(res => res.json().data.comments)
+      .map((res: any) => res.data.comments)
       .map(comments => comments)
   }
 
   addComment(comment: Comment): Observable<Comment> {
     return this
       .http.post('comments', {comment: comment})
-      .map(res => res.json().data)
+      .map((res: any) => res.data)
       .map(comment => new Comment(comment));
   }
 
