@@ -28,9 +28,10 @@
     "@angular/platform-server": "^21.2.26",
     "@angular/router": "^21.2.26",
     "@ngrx/effects": "~21.1.1",
+    "@ngrx/operators": "^21.1.1",
     "@ngrx/router-store": "~21.1.1",
     "@ngrx/store": "~21.1.1",
-    "firebase": "~9.23.0",
+    "firebase": "~10.14.1",
     "font-awesome": "^4.7.0",
     "foundation-sites": "^6.3.0",
     "imagesloaded": "^4.1.1",
@@ -43,8 +44,7 @@
     "rxjs": "~7.8.1",
     "ts-helpers": "^1.1.1",
     "tslib": "^2.0.0",
-    "zone.js": "~0.15.1",
-    "@ngrx/operators": "^21.1.1"
+    "zone.js": "~0.15.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^21.2.31",
@@ -73,5 +73,11 @@
   "main": "index.js",
   "repository": "git@github.com:aviabird/pinterest.git",
   "author": "Pankaj Rawat <pankajrawat19sept@gmail.com>",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "resolutions": {
+    "@grpc/grpc-js": "^1.13.6",
+    "undici": "^6.24.0",
+    "websocket-driver": "^0.7.5",
+    "websocket-extensions": "^0.1.4"
+  }
 }
