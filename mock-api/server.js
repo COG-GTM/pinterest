@@ -48,7 +48,7 @@ function svg(res, w, h, color, label) {
   res.writeHead(200, { 'Content-Type': 'image/svg+xml', 'Cache-Control': 'no-cache' });
   res.end('<svg xmlns="http://www.w3.org/2000/svg" width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '">' +
     '<rect width="100%" height="100%" fill="' + color + '"/>' +
-    '<text x="50%" y="50%" font-family="sans-serif" font-size="' + Math.round(w / 8) + '" fill="#fff" text-anchor="middle" dominant-baseline="middle">' + label + '</text></svg>');
+    '<text x="50%" y="50%" font-family="sans-serif" font-size="' + Math.round(w / 8) + '" fill="#fff" text-anchor="middle" dominant-baseline="middle">' + String(label).replace(/[^\w ?-]/g, '') + '</text></svg>');
 }
 
 function send(res, status, body) {
@@ -66,7 +66,7 @@ function send(res, status, body) {
 function readBody(req) {
   return new Promise(resolve => {
     let data = '';
-    req.on('data', c => { data += c; });
+    req.on('data', c => { data += c; if (data.length > 1e6) req.destroy(); });
     req.on('end', () => {
       try { resolve(data ? JSON.parse(data) : {}); } catch (e) { resolve({}); }
     });
@@ -185,6 +185,7 @@ try {
     ws.on('message', raw => {
       let msg;
       try { msg = JSON.parse(raw); } catch (e) { return; }
+      if (!msg || typeof msg !== 'object') return;
       if (msg.event === 'phx_join' || msg.event === 'heartbeat') {
         ws.send(JSON.stringify({ topic: msg.topic, event: 'phx_reply', payload: { status: 'ok', response: {} }, ref: msg.ref }));
       }
@@ -194,4 +195,4 @@ try {
   console.warn('ws module not installed; socket endpoint disabled');
 }
 
-server.listen(PORT, () => console.log('mock pinwork api on http://localhost:' + PORT));
+server.listen(PORT, '127.0.0.1', () => console.log('mock pinwork api on http://localhost:' + PORT));
