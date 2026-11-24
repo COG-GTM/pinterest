@@ -35,7 +35,7 @@ Same Playwright specs run against the original Angular 4 app (`baseline`, :4000)
 | [05-pin-deep-link.png](side-by-side/05-pin-deep-link.png) | 0.03% | 1325x3142 / 1325x3142 |
 | [06-signed-in.png](side-by-side/06-signed-in.png) | 0.09% | 1325x3142 / 1325x3142 |
 | [07-create-invalid.png](side-by-side/07-create-invalid.png) | 0.05% | 1325x3142 / 1325x3142 |
-| [08-create-valid.png](side-by-side/08-create-valid.png) | 0.07% | 1325x3142 / 1325x3142 |
+| [08-create-valid.png](side-by-side/08-create-valid.png) | 0.06% | 1325x3142 / 1325x3142 |
 | [09-edit.png](side-by-side/09-edit.png) | 0.93% | 1325x3142 / 1325x3142 |
 | [10-comment-added.png](side-by-side/10-comment-added.png) | 0.04% | 1325x3142 / 1325x3142 |
 
