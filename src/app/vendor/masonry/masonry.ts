@@ -15,6 +15,7 @@ export class AngularMasonry implements OnInit, OnDestroy {
 
 
     public _msnry: any;
+    private _destroyed = false;
     // private _imagesLoaded = null;
 
     // Inputs
@@ -51,14 +52,15 @@ export class AngularMasonry implements OnInit, OnDestroy {
 
         // Bind to events
         this._msnry.on('layoutComplete', (items: any) => {
-            this.layoutComplete.emit(items);
+            if (!this._destroyed) this.layoutComplete.emit(items);
         });
         this._msnry.on('removeComplete', (items: any) => {
-            this.removeComplete.emit(items);
+            if (!this._destroyed) this.removeComplete.emit(items);
         });
     }
 
     ngOnDestroy() {
+        this._destroyed = true;
         if (this._msnry) {
             this._msnry.destroy();
         }
@@ -66,7 +68,7 @@ export class AngularMasonry implements OnInit, OnDestroy {
 
     public layout() {
         setTimeout(() => {
-            this._msnry.layout();
+            if (!this._destroyed) this._msnry.layout();
         });
 
         // console.log('AngularMasonry:', 'Layout');
