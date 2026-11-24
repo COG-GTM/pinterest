@@ -1,10 +1,8 @@
-declare var require: any;
 declare var imagesLoaded: any;
 
 import { Component, OnInit, OnDestroy, Input, ElementRef, inject, input, output } from '@angular/core';
 
-// import * as masonry from 'masonry-layout';
-var masonry = require('masonry-layout');
+import masonry from 'masonry-layout';
 
 import { MasonryOptions } from './masonry-options';
 

@@ -1,14 +1,13 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "downlevelIteration": true,
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "bundler",
+    "esModuleInterop": true,
     "experimentalDecorators": true,
     "target": "ES2022",
     "module": "es2020",
-    "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "baseUrl": "./",
     "useDefineForClassFields": false
