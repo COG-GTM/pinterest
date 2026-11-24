@@ -9,10 +9,11 @@ import { ToasterService, ToasterConfig, ToastType } from './vendor/toaster';
 declare var $:any;
 
 @Component({
-  selector: 'pin-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'pin-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class AppComponent implements OnInit {
   public toasterconfig : ToasterConfig = new ToasterConfig({

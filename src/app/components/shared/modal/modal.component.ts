@@ -10,22 +10,22 @@ import { state, transition, trigger, style, animate } from '@angular/animations'
 declare var $: any;
 
 @Component({
-  selector: 'pin-modal',
-  templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.css'],
-  animations: [
-    trigger('flyInDown', [
-      state('in', style({ transform: 'translateY(0)' })),
-      transition('void => *', [
-        style({ transform: 'translateY(-100%)' }),
-        animate(300)
-      ]),
-      transition('* => void', [
-        animate(300, style({ transform: 'translateY(100%)' }))
-      ])
-    ])
-  ]
-
+    selector: 'pin-modal',
+    templateUrl: './modal.component.html',
+    styleUrls: ['./modal.component.css'],
+    animations: [
+        trigger('flyInDown', [
+            state('in', style({ transform: 'translateY(0)' })),
+            transition('void => *', [
+                style({ transform: 'translateY(-100%)' }),
+                animate(300)
+            ]),
+            transition('* => void', [
+                animate(300, style({ transform: 'translateY(100%)' }))
+            ])
+        ])
+    ],
+    standalone: false
 })
 
 export class ModalComponent implements OnInit, OnDestroy, AfterViewInit {

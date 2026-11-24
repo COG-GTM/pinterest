@@ -35,7 +35,8 @@ import { ToasterConfig } from './toaster-config';
         </button>
         <div *ngIf="toast.progressBar">
             <div class="toast-progress-bar" [style.width]="progressBarWidth + '%'"></div>
-        </div>`
+        </div>`,
+    standalone: false
 })
 export class ToastComponent implements OnInit, AfterViewInit, OnDestroy {
     @Input() toasterconfig: ToasterConfig;

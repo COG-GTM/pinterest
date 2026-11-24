@@ -16,26 +16,27 @@ declare var $: any;
 declare var Foundation: any;
 
 @Component({
-  selector: 'pin-pin-detail',
-  templateUrl: './pin-detail.component.html',
-  styleUrls: ['./pin-detail.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    trigger('flyInRight', [
-      state('in', style({ transform: 'translateX(0)', 'z-index': 0 })),
-      transition('void => *', [
-        style({ transform: 'translateX(-50%)', opacity: 0, 'z-index': -999 }),
-        animate(500)
-      ])
-    ]),
-    trigger('flyInDown', [
-      state('in', style({ transform: 'translateY(0)', 'z-index': 0 })),
-      transition('void => *', [
-        style({ transform: 'translateY(100%)', opacity: 0, 'z-index': -999 }),
-        animate(500)
-      ])
-    ])
-  ]
+    selector: 'pin-pin-detail',
+    templateUrl: './pin-detail.component.html',
+    styleUrls: ['./pin-detail.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    animations: [
+        trigger('flyInRight', [
+            state('in', style({ transform: 'translateX(0)', 'z-index': 0 })),
+            transition('void => *', [
+                style({ transform: 'translateX(-50%)', opacity: 0, 'z-index': -999 }),
+                animate(500)
+            ])
+        ]),
+        trigger('flyInDown', [
+            state('in', style({ transform: 'translateY(0)', 'z-index': 0 })),
+            transition('void => *', [
+                style({ transform: 'translateY(100%)', opacity: 0, 'z-index': -999 }),
+                animate(500)
+            ])
+        ])
+    ],
+    standalone: false
 })
 export class PinDetailComponent implements OnInit {
   subscription: Subscription;

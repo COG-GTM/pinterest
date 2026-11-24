@@ -8,9 +8,10 @@ import * as fromRoot from '../../../../reducers';
 import * as comment from '../../../../actions/comment';
 
 @Component({
-  selector: 'pin-pin-comment-new',
-  templateUrl: './pin-comment-new.component.html',
-  styleUrls: ['./pin-comment-new.component.scss']
+    selector: 'pin-pin-comment-new',
+    templateUrl: './pin-comment-new.component.html',
+    styleUrls: ['./pin-comment-new.component.scss'],
+    standalone: false
 })
 export class PinCommentNewComponent implements OnInit {
   commentForm: UntypedFormGroup;

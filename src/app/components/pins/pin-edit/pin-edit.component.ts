@@ -12,9 +12,10 @@ declare var $: any;
 declare var Foundation: any;
 
 @Component({
-  selector: 'pin-pin-edit',
-  templateUrl: './pin-edit.component.html',
-  styleUrls: ['./pin-edit.component.scss']
+    selector: 'pin-pin-edit',
+    templateUrl: './pin-edit.component.html',
+    styleUrls: ['./pin-edit.component.scss'],
+    standalone: false
 })
 export class PinEditComponent implements OnInit, AfterViewInit {
   pinForm: UntypedFormGroup;

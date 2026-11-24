@@ -9,11 +9,12 @@ declare var $:any;
 declare var Foundation:any;
 
 @Component({
-  selector: 'pin-pin-item',
-  templateUrl: './pin-item.component.html',
-  styleUrls: ['./pin-item.component.css'],
-  inputs: ['pin'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'pin-pin-item',
+    templateUrl: './pin-item.component.html',
+    styleUrls: ['./pin-item.component.css'],
+    inputs: ['pin'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class PinItemComponent implements OnInit {
   pin : Pin;

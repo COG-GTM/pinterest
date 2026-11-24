@@ -29,7 +29,8 @@ import { Toast } from './toast';
             </div>
         </div>
         `,
-    animations: Transitions
+    animations: Transitions,
+    standalone: false
 })
 export class ToasterContainerComponent implements OnInit, OnDestroy {
     private addToastSubscriber: any;

@@ -18,7 +18,8 @@ import { MasonryOptions } from './masonry-options';
 
 @Component({
     selector: '[masonry], masonry',
-    template: '<ng-content></ng-content>'
+    template: '<ng-content></ng-content>',
+    standalone: false
 })
 export class AngularMasonry implements OnInit, OnDestroy {
 

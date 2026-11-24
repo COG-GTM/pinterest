@@ -7,10 +7,11 @@ import * as fromRoot from '../../reducers';
 import * as pin from '../../actions/pin';
 
 @Component({
-  selector: 'pin-items',
-  templateUrl: './pins.component.html',
-  styleUrls: ['./pins.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'pin-items',
+    templateUrl: './pins.component.html',
+    styleUrls: ['./pins.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 
 export class PinsComponent implements OnInit {

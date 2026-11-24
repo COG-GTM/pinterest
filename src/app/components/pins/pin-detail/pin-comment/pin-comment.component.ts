@@ -4,9 +4,10 @@ import * as fromRoot from '../../../../reducers';
 import * as comment from '../../../../actions/comment';
 
 @Component({
-  selector: 'pin-pin-comment',
-  templateUrl: './pin-comment.component.html',
-  styleUrls: ['./pin-comment.component.scss']
+    selector: 'pin-pin-comment',
+    templateUrl: './pin-comment.component.html',
+    styleUrls: ['./pin-comment.component.scss'],
+    standalone: false
 })
 export class PinCommentComponent implements OnInit {
   @Input() comment;

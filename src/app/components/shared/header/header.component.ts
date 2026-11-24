@@ -10,10 +10,11 @@ import {LoginSuccessAction} from '../../../actions/user-auth';
 import { GetPinsAction, SearchPinAction } from '../../../actions/pin';
 
 @Component({
-  selector: 'pin-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'pin-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 
 export class HeaderComponent implements OnInit {

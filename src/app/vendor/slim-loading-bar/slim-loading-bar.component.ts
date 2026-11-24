@@ -2,12 +2,13 @@ import { Component, Input, OnInit } from '@angular/core';
 import { SlimLoadingBarService, SlimLoadingBarEventType } from './slim-loading-bar.service';
 
 @Component({
-  selector: 'ng2-slim-loading-bar',
-  template: `
+    selector: 'ng2-slim-loading-bar',
+    template: `
 <div class="slim-loading-bar">
     <div class="slim-loading-bar-progress" [style.width]="progress + '%'" [style.backgroundColor]="color" [style.color]="color"
         [style.height]="height" [style.opacity]="show ? '1' : '0'"></div>
-</div>`
+</div>`,
+    standalone: false
 })
 export class SlimLoadingBarComponent implements OnInit {
   @Input() progress = '0';
