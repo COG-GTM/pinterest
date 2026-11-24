@@ -1,0 +1,8 @@
+{
+  "name": "pinwork-mock-api",
+  "private": true,
+  "description": "Local stand-in for the retired pinwork-api.herokuapp.com backend",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "dependencies": { "ws": "^8.18.0" }
+}

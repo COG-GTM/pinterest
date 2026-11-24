@@ -4,7 +4,8 @@
   "angular-cli": {},
   "scripts": {
     "ng": "./node_modules/@angular/cli/bin/ng",
-    "start": "ng serve",
+    "start": "ng serve --proxy-config proxy.conf.json",
+    "mock-api": "node mock-api/server.js",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

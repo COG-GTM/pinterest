@@ -7,7 +7,9 @@ export const environment = {
   production: false,
   // apiEndpoint: 'https://pinwork-api.herokuapp.com/api/',
   // socketEndpoint: 'wss://pinwork-api.herokuapp.com',
-  apiEndpoint: 'http://localhost:4000/api/',
-  socketEndpoint: 'ws://localhost:4000',
+  // The original pinwork-api.herokuapp.com backend is gone; `npm run mock-api`
+  // serves a local stand-in that `ng serve` proxies via proxy.conf.json.
+  apiEndpoint: '/api/',
+  socketEndpoint: (location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host,
   basic_auth_token: btoa('api:password')
 };
