@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Subscription } from 'rxjs';
@@ -42,7 +42,7 @@ declare var Foundation: any;
     ],
     imports: [ModalComponent, PinCommentComponent, PinCommentNewComponent]
 })
-export class PinDetailComponent implements OnInit {
+export class PinDetailComponent implements OnInit, AfterViewInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private store = inject<Store<fromRoot.AppState>>(Store);
@@ -72,21 +72,26 @@ export class PinDetailComponent implements OnInit {
   }
 
   loadModal() {
-    this.pin$.subscribe(
-      pin => {
-        try {
-          let el = $(`.pinModal-${this.pinIndex}`);
-          if (el.length) {
-            if (el.data('zfPlugin')) {
-              el.foundation('open');
-            } else {
-              new Foundation.Reveal(el);
-              el.foundation('open');
-            }
-          }
-        } catch (e) { console.log(e); };
+    this.pin$.subscribe(() => this.openModal());
+  }
+
+  // The route is lazy: the card's click handler can fire before this view exists, so open again once it does
+  ngAfterViewInit() {
+    this.openModal();
+  }
+
+  private openModal() {
+    try {
+      let el = $(`.pinModal-${this.pinIndex}`);
+      if (el.length) {
+        if (el.data('zfPlugin')) {
+          el.foundation('open');
+        } else {
+          new Foundation.Reveal(el);
+          el.foundation('open');
+        }
       }
-    );
+    } catch (e) { console.log(e); };
   }
 
   onCommentDelete(id) {
