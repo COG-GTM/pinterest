@@ -30,7 +30,6 @@
     "@ngrx/effects": "~21.1.1",
     "@ngrx/router-store": "~21.1.1",
     "@ngrx/store": "~21.1.1",
-    "core-js": "^2.4.1",
     "firebase": "~9.23.0",
     "font-awesome": "^4.7.0",
     "foundation-sites": "^6.3.0",
