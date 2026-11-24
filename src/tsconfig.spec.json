@@ -6,7 +6,7 @@
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "lib": [
-      "es2016",
+      "es2018",
       "dom"
     ],
     "outDir": "../out-tsc/spec",
@@ -16,7 +16,9 @@
     "types": [
       "jasmine",
       "node"
-    ]
+    ],
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true
   },
   "files": [
     "test.ts",

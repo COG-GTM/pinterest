@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import * as firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import { StoreModule, Store } from '@ngrx/store';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { UrlRouterStateSerializer } from './router-state-serializer';

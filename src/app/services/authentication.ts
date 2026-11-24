@@ -1,6 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
-import * as firebase from 'firebase/app';
-import 'firebase/auth';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 import { User } from '../models/user';
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../environments/environment';
