@@ -28,13 +28,19 @@ $ git clone https://github.com/aviabird/pinterest.git
 $ cd pinterest
 ```
 
-##### Install npm dependencies
+##### Install dependencies (Node >= 22.22)
 ```
-$ npm install
+$ yarn install
+$ (cd mock-api && npm install)
 ```
 
 ## Development server
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+The original backend (pinwork-api.herokuapp.com) is retired, so development runs against the local mock API:
+```
+$ npm run mock-api   # http://127.0.0.1:3000
+$ npm start          # ng serve with proxy.conf.json -> http://localhost:4200/
+```
+The app reloads automatically when you change any of the source files.
 
 ## Author
 
