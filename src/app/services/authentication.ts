@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, inject } from '@angular/core';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import { User } from '../models/user';
@@ -10,12 +10,12 @@ import { HttpService } from './http';
 
 @Injectable()
 export class AuthenticationService {
+  http = inject(HttpService);
+  private zone = inject(NgZone);
+
   userAuth: Observable<any>;
 
-  constructor(
-    public http: HttpService,
-    private zone: NgZone,
-  ) {
+  constructor() {
     const authState = new Observable<firebase.User>(observer =>
       firebase.auth().onAuthStateChanged(
         user => this.zone.run(() => observer.next(user)),

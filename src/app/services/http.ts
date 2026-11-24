@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap, finalize } from 'rxjs/operators';
@@ -15,11 +15,9 @@ export interface RequestOptionsArgs {
  */
 @Injectable()
 export class HttpService {
+  private http = inject(HttpClient);
+  loaderService = inject(LoaderService);
 
-  constructor(
-    private http: HttpClient,
-    public loaderService: LoaderService
-  ) {}
 
   get(url: string, options?: RequestOptionsArgs): Observable<any> {
     this.requestInterceptor();

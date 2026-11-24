@@ -1,15 +1,7 @@
 declare var require: any;
 declare var imagesLoaded: any;
 
-import {
-    Component,
-    OnInit,
-    OnDestroy,
-    Input,
-    Output,
-    ElementRef,
-    EventEmitter,
-} from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, ElementRef, EventEmitter, inject } from '@angular/core';
 
 // import * as masonry from 'masonry-layout';
 var masonry = require('masonry-layout');
@@ -21,10 +13,8 @@ import { MasonryOptions } from './masonry-options';
     template: '<ng-content></ng-content>'
 })
 export class AngularMasonry implements OnInit, OnDestroy {
+    private _element = inject(ElementRef);
 
-    constructor(
-        private _element: ElementRef
-    ) { }
 
     public _msnry: any;
     // private _imagesLoaded = null;

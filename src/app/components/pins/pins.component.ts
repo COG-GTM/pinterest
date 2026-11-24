@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { Pin } from '../../models/pin';
 import { AuthenticationService } from '../../services/authentication';
 import { Observable } from 'rxjs';
@@ -21,12 +21,12 @@ import { AsyncPipe } from '@angular/common';
 })
 
 export class PinsComponent implements OnInit {
+  private authService = inject(AuthenticationService);
+  private store = inject<Store<fromRoot.AppState>>(Store);
+
   pins: Observable<Pin[]>;
 
-  constructor(
-    private authService: AuthenticationService,
-    private store: Store<fromRoot.AppState>
-  ) {
+  constructor() {
     this.pins = this.store.select(fromRoot.getPins);
   }
 

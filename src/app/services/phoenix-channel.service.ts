@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Socket } from "phoenix_js"
 import { environment } from '../../environments/environment';
 import { Store } from '@ngrx/store';
@@ -9,12 +9,12 @@ import { User } from '../models/user';
 
 @Injectable()
 export class PhoenixChannelService {
+  private store = inject<Store<AppState>>(Store);
+
   private socket: any;
   private user: User;
 
-  constructor(
-    private store: Store<AppState>
-  ) {
+  constructor() {
     this.store.select(getUserAuthStatus).subscribe(
       authStatus => {
         if (!authStatus) {

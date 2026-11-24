@@ -1,4 +1,4 @@
-import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import {AuthenticationService} from '../../../services/authentication';
 import {User} from '../../../models/user';
 import {Store} from '@ngrx/store';
@@ -22,13 +22,18 @@ import { NgClass, AsyncPipe } from '@angular/common';
 })
 
 export class HeaderComponent implements OnInit {
+  private authService = inject(AuthenticationService);
+  private store = inject<Store<AppState>>(Store);
+
   title = 'PinWork';
   user: Observable < User >;
   userIsAuthenticated: Observable < boolean >;
   items: string[];
 
-  constructor(private authService: AuthenticationService, private store : Store < AppState >)
+  constructor()
   {
+    const store = this.store;
+
     this.user = store.select(fromRoot.getAuthUser);
     this.userIsAuthenticated = store.select(fromRoot.getUserAuthStatus);
   }

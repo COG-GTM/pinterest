@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { debounceTime, map, switchMap } from 'rxjs/operators';
@@ -12,11 +12,10 @@ import { Pin } from '../models/pin';
 
 @Injectable()
 export class PinEffects {
-  constructor(
-    private actions$: Actions<any>,
-    private pinDataService: PinDataService,
-    private store: Store<AppState>
-  ) {}
+  private actions$ = inject<Actions<any>>(Actions);
+  private pinDataService = inject(PinDataService);
+  private store = inject<Store<AppState>>(Store);
+
 
   getPins$ = createEffect((): Observable<Action> => this.actions$.pipe(
     ofType<any>(pin.ActionTypes.GET_PINS),

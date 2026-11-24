@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { User } from '../models/user';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -14,15 +14,15 @@ import { PhoenixChannelService } from './phoenix-channel.service';
 
 @Injectable()
 export class PinDataService {
+  http = inject(HttpService);
+  store = inject<Store<AppState>>(Store);
+  private phoenixChannelService = inject(PhoenixChannelService);
+
   PinState: Observable<fromPins.State>;
   pinsOffset: number = 0;
   searchQuery: string;
 
-  constructor(
-    public http: HttpService,
-    public store: Store<AppState>,
-    private phoenixChannelService: PhoenixChannelService
-  ) {
+  constructor() {
     this.store.select(getPinscountWithSeatchQuery()).subscribe(
       params => {
       this.pinsOffset = params.offset;

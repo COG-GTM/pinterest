@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -9,10 +9,9 @@ import { Toastr } from '../models/toastr';
 
 @Injectable()
 export class NotificationEffects {
-  constructor(
-    private actions$: Actions<any>,
-    private store: Store<AppState>
-  ) {}
+  private actions$ = inject<Actions<any>>(Actions);
+  private store = inject<Store<AppState>>(Store);
+
 
   showProgress$ = createEffect((): Observable<Action> => this.actions$.pipe(
     ofType<any>(notification.ActionTypes.SHOW_PROGRESS),

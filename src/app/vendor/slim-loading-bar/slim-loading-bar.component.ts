@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { SlimLoadingBarService, SlimLoadingBarEventType } from './slim-loading-bar.service';
 
 @Component({
@@ -10,12 +10,12 @@ import { SlimLoadingBarService, SlimLoadingBarEventType } from './slim-loading-b
 </div>`
 })
 export class SlimLoadingBarComponent implements OnInit {
+  service = inject(SlimLoadingBarService);
+
   @Input() progress = '0';
   @Input() color = 'firebrick';
   @Input() height = '2px';
   @Input() show = true;
-
-  constructor(public service: SlimLoadingBarService) {}
 
   ngOnInit(): void {
     this.service.events.subscribe(event => {

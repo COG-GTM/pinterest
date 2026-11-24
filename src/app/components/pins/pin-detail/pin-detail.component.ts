@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -43,6 +43,11 @@ declare var Foundation: any;
     imports: [ModalComponent, PinCommentComponent, PinCommentNewComponent, AsyncPipe]
 })
 export class PinDetailComponent implements OnInit {
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private store = inject<Store<fromRoot.AppState>>(Store);
+  private formBuilder = inject(UntypedFormBuilder);
+
   subscription: Subscription;
   pinIndex: string;
   pin: Observable<Pin>;
@@ -50,12 +55,7 @@ export class PinDetailComponent implements OnInit {
   authUser: Observable<User>;
   canAccessPin: Observable<boolean>;
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private store: Store<fromRoot.AppState>,
-    private formBuilder: UntypedFormBuilder
-  ) {
+  constructor() {
     this.pin = this.store.select(fromRoot.getSelectedPin);
     this.comments = this.store.select(fromRoot.getSelectedPinComments);
     this.authUser = this.store.select(fromRoot.getAuthUser);

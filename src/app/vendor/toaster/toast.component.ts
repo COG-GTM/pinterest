@@ -1,20 +1,4 @@
-import {
-    Component, 
-    Input, 
-    Output, 
-    ViewChild, 
-    ViewContainerRef, 
-    EventEmitter,
-    ComponentFactoryResolver, 
-    ChangeDetectorRef, 
-    OnInit, 
-    AfterViewInit, 
-    OnDestroy,
-    HostListener,
-    NgZone, 
-    ElementRef,
-    Renderer2
-} from '@angular/core';
+import { Component, Input, Output, ViewChild, ViewContainerRef, EventEmitter, ComponentFactoryResolver, ChangeDetectorRef, OnInit, AfterViewInit, OnDestroy, HostListener, NgZone, ElementRef, Renderer2, inject } from '@angular/core';
 import { Toast } from './toast';
 import { BodyOutputType } from './bodyOutputType';
 import { ToasterConfig } from './toaster-config';
@@ -53,6 +37,12 @@ import { TrustHtmlPipe } from './trust-html.pipe';
     imports: [NgClass, TrustHtmlPipe]
 })
 export class ToastComponent implements OnInit, AfterViewInit, OnDestroy {
+    private componentFactoryResolver = inject(ComponentFactoryResolver);
+    private changeDetectorRef = inject(ChangeDetectorRef);
+    private ngZone = inject(NgZone);
+    private element = inject(ElementRef);
+    private renderer2 = inject(Renderer2);
+
     @Input() toasterconfig: ToasterConfig;
     @Input() toast: Toast;
     @Input() titleClass: string;
@@ -73,14 +63,6 @@ export class ToastComponent implements OnInit, AfterViewInit, OnDestroy {
     private removeToastTick: number;
 
     private removeMouseOverListener: () => void;
-
-    constructor(
-      private componentFactoryResolver: ComponentFactoryResolver,
-      private changeDetectorRef: ChangeDetectorRef,
-      private ngZone: NgZone,
-      private element: ElementRef,
-      private renderer2: Renderer2
-    ) {}
 
     ngOnInit() {
         if (this.toast.progressBar) {

@@ -3,7 +3,7 @@ import { Pin } from './../../../../models/pin';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { UntypedFormGroup, UntypedFormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, inject } from '@angular/core';
 import * as fromRoot from '../../../../reducers';
 import * as comment from '../../../../actions/comment';
 import { AsyncPipe } from '@angular/common';
@@ -15,16 +15,16 @@ import { AsyncPipe } from '@angular/common';
     imports: [FormsModule, ReactiveFormsModule, AsyncPipe]
 })
 export class PinCommentNewComponent implements OnInit {
+  private store = inject<Store<fromRoot.AppState>>(Store);
+  private formBuilder = inject(UntypedFormBuilder);
+
   commentForm: UntypedFormGroup;
   userIsAuthenticated: Observable<boolean>;
   @Input() authUser: User;
   @Input() pin: Pin;
 
 
-  constructor(
-    private store: Store<fromRoot.AppState>,
-    private formBuilder: UntypedFormBuilder
-  ) {
+  constructor() {
     this.userIsAuthenticated = this.store.select(fromRoot.getUserAuthStatus);
   }
 

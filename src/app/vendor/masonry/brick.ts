@@ -5,24 +5,15 @@ interface MutationWindow extends Window {
 
 declare var window: MutationWindow;
 
-import {
-    Directive,
-    Inject,
-    ElementRef,
-    forwardRef,
-    OnDestroy,
-    AfterViewInit
-} from '@angular/core';
+import { Directive, ElementRef, OnDestroy, AfterViewInit, inject } from '@angular/core';
 
 import { AngularMasonry } from './masonry';
 
 @Directive({ selector: '[masonry-brick], masonry-brick' })
 export class AngularMasonryBrick implements OnDestroy, AfterViewInit {
+    private _element = inject(ElementRef);
+    private _parent = inject(AngularMasonry);
 
-    constructor(
-        private _element: ElementRef,
-        @Inject(forwardRef(() => AngularMasonry)) private _parent: AngularMasonry
-    ) { }
 
     ngAfterViewInit() {
         this._parent.add(this._element.nativeElement);

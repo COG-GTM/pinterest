@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState, getProgressStatus, getNotifications } from './reducers/index';
@@ -20,18 +20,15 @@ declare var $:any;
     imports: [ToasterContainerComponent, SlimLoadingBarComponent, HeaderComponent, RouterOutlet, FooterComponent]
 })
 export class AppComponent implements OnInit {
+  router = inject(Router);
+  private store = inject<Store<AppState>>(Store);
+  private slimLoadingBarService = inject(SlimLoadingBarService);
+  private toasterService = inject(ToasterService);
+
   public toasterconfig : ToasterConfig = new ToasterConfig({
     preventDuplicates: true,
     positionClass: 'toast-bottom-right'
   });
-
-  constructor(
-    public router: Router,
-    private store: Store<AppState>,
-    private slimLoadingBarService: SlimLoadingBarService,
-    private toasterService: ToasterService
-  ) {
-  }
 
   ngOnInit() {
     this.afterModalClosed();

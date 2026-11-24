@@ -1,9 +1,4 @@
-import { 
-    Component,
-    Input, 
-    OnInit,
-    OnDestroy 
-} from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, inject } from '@angular/core';
 import { Transitions } from './transitions';
 import { ToasterConfig } from './toaster-config';
 import { ToasterService} from './toaster.service';
@@ -45,7 +40,9 @@ export class ToasterContainerComponent implements OnInit, OnDestroy {
 
     public toasts: Toast[] = [];
 
-    constructor(toasterService: ToasterService) {
+    constructor() {
+        const toasterService = inject(ToasterService);
+
         this.toasterService = toasterService;
     }
 

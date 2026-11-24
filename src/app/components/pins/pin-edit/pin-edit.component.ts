@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as fromRoot from '../../../reducers';
@@ -21,6 +21,11 @@ declare var Foundation: any;
     imports: [ModalComponent, FormsModule, ReactiveFormsModule, TagInputModule, NgClass, AsyncPipe, UpperCasePipe]
 })
 export class PinEditComponent implements OnInit, AfterViewInit {
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private store = inject<Store<fromRoot.AppState>>(Store);
+  private formBuilder = inject(UntypedFormBuilder);
+
   pinForm: UntypedFormGroup;
   title: string;
   isNew = true;
@@ -30,12 +35,7 @@ export class PinEditComponent implements OnInit, AfterViewInit {
   authUser: Observable<User>;
   pinTags: string[];
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private store: Store<fromRoot.AppState>,
-    private formBuilder: UntypedFormBuilder
-  ) {
+  constructor() {
     this.authUser = this.store.select(fromRoot.getAuthUser);
   }
 

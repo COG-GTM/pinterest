@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { Pin } from '../../../models/pin';
 import { User } from '../../../models/user';
 import { Store } from '@ngrx/store';
@@ -19,11 +19,10 @@ declare var Foundation:any;
     imports: [RouterLink, AsyncPipe, UpperCasePipe]
 })
 export class PinItemComponent implements OnInit {
+  private store = inject<Store<fromRoot.AppState>>(Store);
+
   pin : Pin;
   user: Observable<User>;
-
-  constructor(private store: Store<fromRoot.AppState>) {
-  }
 
   ngOnInit() {
     this.user = this.store.select(fromRoot.getUserById(this.pin && this.pin.user_id))
