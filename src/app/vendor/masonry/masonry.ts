@@ -1,7 +1,7 @@
 declare var require: any;
 declare var imagesLoaded: any;
 
-import { Component, OnInit, OnDestroy, Input, Output, ElementRef, EventEmitter, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ElementRef, inject, input, output } from '@angular/core';
 
 // import * as masonry from 'masonry-layout';
 var masonry = require('masonry-layout');
@@ -21,11 +21,11 @@ export class AngularMasonry implements OnInit, OnDestroy {
 
     // Inputs
     @Input() public options: MasonryOptions;
-    @Input() public useImagesLoaded: Boolean = false;
+    public readonly useImagesLoaded = input<Boolean>(false);
 
     // Outputs
-    @Output() layoutComplete: EventEmitter<any[]> = new EventEmitter<any[]>();
-    @Output() removeComplete: EventEmitter<any[]> = new EventEmitter<any[]>();
+    readonly layoutComplete = output<any[]>();
+    readonly removeComplete = output<any[]>();
 
     ngOnInit() {
         ///TODO: How to load imagesloaded only if this.useImagesLoaded===true?
@@ -84,7 +84,7 @@ export class AngularMasonry implements OnInit, OnDestroy {
             isFirstItem = true;
         }
 
-        if (this.useImagesLoaded) {
+        if (this.useImagesLoaded()) {
             imagesLoaded(element, (instance: any) => {
                 this._element.nativeElement.appendChild(element);
                 

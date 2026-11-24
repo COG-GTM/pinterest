@@ -25,8 +25,8 @@ describe('PinCommentNewComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PinCommentNewComponent);
     component = fixture.componentInstance;
-    component.authUser = <any>{ id: 'u1', avatar: '' };
-    component.pin = <any>{ id: 'p1' };
+    fixture.componentRef.setInput('authUser', <any>{ id: 'u1', avatar: '' });
+    fixture.componentRef.setInput('pin', <any>{ id: 'p1' });
     fixture.detectChanges();
   });
 

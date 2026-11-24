@@ -1,4 +1,4 @@
-import { Input } from '@angular/core';
+import { input } from '@angular/core';
 import {
   Component,
   OnInit,
@@ -28,9 +28,9 @@ declare var $: any;
 })
 
 export class ModalComponent implements OnInit, OnDestroy, AfterViewInit {
-  @Input() title: string;
-  @Input() klass: string;
-  @Input() size: string;
+  readonly title = input<string>(undefined);
+  readonly klass = input<string>(undefined);
+  readonly size = input<string>(undefined);
 
   constructor() {
   }

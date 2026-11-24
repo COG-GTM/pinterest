@@ -1,5 +1,5 @@
 import { Store } from '@ngrx/store';
-import { Component, OnInit, Input, inject } from '@angular/core';
+import { Component, OnInit, inject, input } from '@angular/core';
 import * as fromRoot from '../../../../reducers';
 import * as comment from '../../../../actions/comment';
 import { DatePipe } from '@angular/common';
@@ -13,8 +13,8 @@ import { DatePipe } from '@angular/common';
 export class PinCommentComponent implements OnInit {
   private store = inject<Store<fromRoot.AppState>>(Store);
 
-  @Input() comment;
-  @Input() authUser;
+  readonly comment = input.required<any>();
+  readonly authUser = input.required<any>();
 
   ngOnInit() {
   }

@@ -3,7 +3,7 @@ import { Pin } from './../../../../models/pin';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { UntypedFormGroup, UntypedFormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Component, OnInit, Input, inject } from '@angular/core';
+import { Component, OnInit, inject, input } from '@angular/core';
 import * as fromRoot from '../../../../reducers';
 import * as comment from '../../../../actions/comment';
 import { AsyncPipe } from '@angular/common';
@@ -20,8 +20,8 @@ export class PinCommentNewComponent implements OnInit {
 
   commentForm: UntypedFormGroup;
   userIsAuthenticated: Observable<boolean>;
-  @Input() authUser: User;
-  @Input() pin: Pin;
+  readonly authUser = input.required<User>();
+  readonly pin = input.required<Pin>();
 
 
   constructor() {
@@ -43,8 +43,8 @@ export class PinCommentNewComponent implements OnInit {
   initCommentForm(){
     this.commentForm = this.formBuilder.group({
       message: ['', Validators.required],
-      user_id: [this.authUser.id, Validators.required],
-      pin_id: [this.pin.id, Validators.required]
+      user_id: [this.authUser().id, Validators.required],
+      pin_id: [this.pin().id, Validators.required]
     });
   }
 

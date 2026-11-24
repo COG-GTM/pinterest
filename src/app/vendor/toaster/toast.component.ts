@@ -1,4 +1,4 @@
-import { Component, Input, Output, ViewChild, ViewContainerRef, EventEmitter, ComponentFactoryResolver, ChangeDetectorRef, OnInit, AfterViewInit, OnDestroy, HostListener, NgZone, ElementRef, Renderer2, inject } from '@angular/core';
+import { Component, Input, ViewContainerRef, ComponentFactoryResolver, ChangeDetectorRef, OnInit, AfterViewInit, OnDestroy, HostListener, NgZone, ElementRef, Renderer2, inject, input, output, viewChild } from '@angular/core';
 import { Toast } from './toast';
 import { BodyOutputType } from './bodyOutputType';
 import { ToasterConfig } from './toaster-config';
@@ -9,8 +9,8 @@ import { TrustHtmlPipe } from './trust-html.pipe';
     selector: '[toastComp]',
     template: `
         <div class="toast-content">
-          <div [ngClass]="titleClass">{{toast.title}}</div>
-          <div [ngClass]="messageClass">
+          <div [ngClass]="titleClass()">{{toast.title}}</div>
+          <div [ngClass]="messageClass()">
             @switch (toast.bodyOutputType) {
               @case (bodyOutputType.Component) {
                 <div #componentBody></div>
@@ -43,19 +43,17 @@ export class ToastComponent implements OnInit, AfterViewInit, OnDestroy {
     private element = inject(ElementRef);
     private renderer2 = inject(Renderer2);
 
-    @Input() toasterconfig: ToasterConfig;
+    readonly toasterconfig = input<ToasterConfig>(undefined);
     @Input() toast: Toast;
-    @Input() titleClass: string;
-    @Input() messageClass: string;
-    @ViewChild('componentBody', { read: ViewContainerRef, static: false }) componentBody: ViewContainerRef;
+    readonly titleClass = input<string>(undefined);
+    readonly messageClass = input<string>(undefined);
+    readonly componentBody = viewChild('componentBody', { read: ViewContainerRef });
 
     public progressBarWidth: number = -1;
     public bodyOutputType = BodyOutputType;
 
-    @Output()
-    public clickEvent = new EventEmitter();
-    @Output()
-    public removeToastEvent = new EventEmitter<Toast>();
+    public readonly clickEvent = output<{ value: { toast: Toast; isCloseButton: boolean } }>();
+    public readonly removeToastEvent = output<Toast>();
 
     private timeoutId?: number = null;
     private timeout: number = 0;
@@ -70,7 +68,7 @@ export class ToastComponent implements OnInit, AfterViewInit, OnDestroy {
         }
 
         let timeout = (typeof this.toast.timeout === 'number')
-            ? this.toast.timeout : this.toasterconfig.timeout;
+            ? this.toast.timeout : this.toasterconfig().timeout;
 
         if (typeof timeout === 'object') { 
             timeout = timeout[this.toast.type]; 
@@ -82,12 +80,12 @@ export class ToastComponent implements OnInit, AfterViewInit, OnDestroy {
     ngAfterViewInit() {
         if (this.toast.bodyOutputType === this.bodyOutputType.Component) {
             const component = this.componentFactoryResolver.resolveComponentFactory(this.toast.body);
-            const componentInstance: any = this.componentBody.createComponent(component, undefined, this.componentBody.injector);
+            const componentInstance: any = this.componentBody().createComponent(component, undefined, this.componentBody().injector);
             componentInstance.instance.toast = this.toast;
             this.changeDetectorRef.detectChanges();
         }
 
-        if (this.toasterconfig.mouseoverTimerStop) {
+        if (this.toasterconfig().mouseoverTimerStop) {
             // only apply a mouseenter event when necessary to avoid
             // unnecessary event and change detection cycles.
             this.removeMouseOverListener = this.renderer2.listen(
@@ -112,7 +110,7 @@ export class ToastComponent implements OnInit, AfterViewInit, OnDestroy {
 
     @HostListener('mouseleave') 
     restartTimer() {
-        if (this.toasterconfig.mouseoverTimerStop) {
+        if (this.toasterconfig().mouseoverTimerStop) {
             if (!this.timeoutId) {
                 this.configureTimer();
             }

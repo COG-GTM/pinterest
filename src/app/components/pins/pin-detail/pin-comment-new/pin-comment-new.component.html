@@ -2,7 +2,7 @@
   <form [formGroup]="commentForm" (ngSubmit)="onCommentSave()">
     <div class="input-group">
       <span class="input-group-label comment-user-img">
-        <img aria-hidden=true [src]="authUser.avatar" class="avatar"/>
+        <img aria-hidden=true [src]="authUser().avatar" class="avatar"/>
       </span>
       <textarea
         type="text"
@@ -12,8 +12,8 @@
         placeholder="Add Comment"
         (keypress)="onKeyPressed($event.keyCode)">
       </textarea>
-      <input type="hidden" formControlName="user_id" [ngModel]="authUser.id">
-      <input type="hidden" formControlName="pin_id" [ngModel]="pin.id">
+      <input type="hidden" formControlName="user_id" [ngModel]="authUser().id">
+      <input type="hidden" formControlName="pin_id" [ngModel]="pin().id">
     </div>
     <div class="row">
       <div class="text-right">
