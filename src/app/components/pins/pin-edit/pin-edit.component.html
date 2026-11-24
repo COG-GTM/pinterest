@@ -91,14 +91,14 @@ I'm Invalid!
 
 <div class="input-group pinTags">
   <tag-input
-    [(ngModel)]='pinTags'
+    [ngModel]='pinTags'
+    (ngModelChange)="onTagsChange($event)"
+    [modelAsStrings]="true"
     placeholder="+ more (max: 5)"
     secondaryPlaceholder="Tags (max: 5)"
     maxItems="5"
     separatorKeys="[32]"
     class="input-group-field"
-    (onAdd)="onItemUpdate($event)"
-    (onRemove)="onItemUpdate($event)"
     (onBlur)="pinForm.controls['tags'].markAsTouched()"
     [ngClass]="{'ng-invalid': pinForm.get('tags').touched && !pinForm.get('tags').valid,'ng-touched': pinForm.get('tags').touched}"
   ></tag-input>

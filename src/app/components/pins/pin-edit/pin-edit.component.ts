@@ -148,12 +148,9 @@ export class PinEditComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onItemUpdate(event) {
-    if (event) {
-      this.pinTags.pop();
-      this.pinTags.push(event.value);
-    }
-    this.pinForm.controls['tags'].setValue(this.pinTags.join(','));
+  onTagsChange(tags: string[]) {
+    this.pinTags = tags;
+    this.pinForm.controls['tags'].setValue(tags.join(','));
   }
 
 }
