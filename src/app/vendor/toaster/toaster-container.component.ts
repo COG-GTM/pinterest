@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, OnDestroy, inject } from '@angular/core';
 import { Transitions } from './transitions';
 import { ToasterConfig } from './toaster-config';
 import { ToasterService} from './toaster.service';
@@ -35,6 +35,7 @@ export class ToasterContainerComponent implements OnInit, OnDestroy {
     private addToastSubscriber: any;
     private clearToastsSubscriber: any;
     private toasterService: ToasterService;
+    private cdr = inject(ChangeDetectorRef);
 
     @Input() toasterconfig: ToasterConfig;
 
@@ -142,6 +143,7 @@ export class ToasterContainerComponent implements OnInit, OnDestroy {
         if (toast.onShowCallback) {
             toast.onShowCallback(toast);
         }
+        this.cdr.markForCheck();
     }
 
     private isLimitExceeded() {
