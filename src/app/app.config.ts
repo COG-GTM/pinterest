@@ -1,5 +1,5 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { provideStore } from '@ngrx/store';
@@ -18,9 +18,8 @@ import { AuthenticationService } from './services/authentication';
 import { PinDataService } from './services/pin-data';
 import { LoaderService } from './services/loader';
 import { HttpService } from './services/http';
+import { apiInterceptor } from './services/api.interceptor';
 import { PhoenixChannelService } from './services/phoenix-channel.service';
-import { CanActivateViaAuthGuard } from './guards/authenticated';
-import { CanEditPinGuard } from './guards/can-edit-pin';
 import { SlimLoadingBarService } from './vendor/slim-loading-bar';
 import { ToasterService } from './vendor/toaster';
 
@@ -38,7 +37,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection(),
     provideRouter(routes),
-    provideHttpClient(withInterceptorsFromDi()),
+    provideHttpClient(withInterceptors([apiInterceptor])),
     provideAnimations(),
     provideStore(reducers, {
       metaReducers,
@@ -51,8 +50,6 @@ export const appConfig: ApplicationConfig = {
     LoaderService,
     HttpService,
     PhoenixChannelService,
-    CanActivateViaAuthGuard,
-    CanEditPinGuard,
     SlimLoadingBarService,
     ToasterService
   ]

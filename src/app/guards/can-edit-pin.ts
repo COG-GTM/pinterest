@@ -1,14 +1,7 @@
-import { Injectable, inject } from '@angular/core';
-
+import { inject } from '@angular/core';
+import { CanActivateFn } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState, getPinAccessStatus } from '../reducers/index';
 
-@Injectable()
-export class CanEditPinGuard  {
-  private store = inject<Store<AppState>>(Store);
-
-
-  canActivate() {
-    return this.store.select(getPinAccessStatus);
-  }
-}
+export const canEditPinGuard: CanActivateFn = () =>
+  inject<Store<AppState>>(Store).select(getPinAccessStatus);

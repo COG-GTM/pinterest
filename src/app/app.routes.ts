@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { PinsComponent } from './components/pins/pins.component';
 import { PINS_ROUTES } from './components/pins/pins.routes';
 
 export const routes: Routes = [
@@ -10,7 +9,7 @@ export const routes: Routes = [
   },
   {
     path: 'pins',
-    component: PinsComponent,
+    loadComponent: () => import('./components/pins/pins.component').then(m => m.PinsComponent),
     children: PINS_ROUTES
   }
 ];
