@@ -3,13 +3,9 @@ import {
   Component,
   OnInit,
   OnDestroy,
-  AfterViewInit,
-  state,
-  transition,
-  trigger,
-  style,
-  animate
+  AfterViewInit
 } from '@angular/core';
+import { state, transition, trigger, style, animate } from '@angular/animations';
 
 declare var $: any;
 

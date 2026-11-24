@@ -1,10 +1,5 @@
-import {
-  Component, OnInit, ChangeDetectionStrategy, trigger,
-  state,
-  style,
-  transition,
-  animate
-} from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Subscription } from 'rxjs/Subscription';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';

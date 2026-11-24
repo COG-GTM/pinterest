@@ -17,3 +17,8 @@ import 'core-js/es6/reflect';
 
 import 'core-js/es7/reflect';
 import 'zone.js/dist/zone';
+
+/***************************************************************************************************
+ * Node globals: the Angular 6+ build no longer polyfills `global`, which some dependencies still read.
+ */
+(window as any).global = window;
