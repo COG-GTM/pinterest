@@ -16,12 +16,11 @@
     "baseUrl": "",
     "types": []
   },
-  "include": [
-    "**/*.ts",
-    "../node_modules/angular2-masonry/**/*.ts"
+  "files": [
+    "main.ts",
+    "polyfills.ts"
   ],
-  "exclude": [
-    "test.ts",
-    "**/*.spec.ts"
+  "include": [
+    "**/*.d.ts"
   ]
 }

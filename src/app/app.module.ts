@@ -5,13 +5,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import * as firebase from 'firebase/app';
 import { StoreModule, Store } from '@ngrx/store';
-import { StoreRouterConnectingModule, RouterStateSerializer } from '@ngrx/router-store';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { UrlRouterStateSerializer } from './router-state-serializer';
 import { routes, AppRoutes } from './app.routes';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 // import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { MasonryModule } from 'angular2-masonry';
+import { MasonryModule } from './vendor/masonry';
 import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 import {SlimLoadingBarModule} from 'ng2-slim-loading-bar';
 import { TagInputModule } from 'ngx-chips';
@@ -34,7 +34,7 @@ import { PinEditComponent } from './components/pins/pin-edit/pin-edit.component'
 import { HttpService } from './services/http';
 import { LoaderService } from './services/loader';
 import { NotificationEffects } from './effects/notification';
-import { ToasterService, ToasterModule } from 'angular2-toaster/angular2-toaster';
+import { ToasterService, ToasterModule } from 'angular2-toaster';
 import { CanActivateViaAuthGuard } from './guards/authenticated';
 import { CanEditPinGuard } from './guards/can-edit-pin';
 import { PhoenixChannelService } from './services/phoenix-channel.service';
@@ -84,7 +84,7 @@ import 'rxjs/add/observable/of';
     RouterModule.forRoot(routes),
     StoreModule.forRoot(reducers, { metaReducers, runtimeChecks: { strictStateImmutability: true, strictActionImmutability: false } }),
     // StoreDevtoolsModule.instrumentOnlyWithExtension(),
-    StoreRouterConnectingModule.forRoot(),
+    StoreRouterConnectingModule.forRoot({ serializer: UrlRouterStateSerializer }),
     EffectsModule.forRoot([UserAuthEffects, PinEffects, CommentEffects, NotificationEffects]),
     MasonryModule,
     InfiniteScrollModule,
@@ -94,7 +94,6 @@ import 'rxjs/add/observable/of';
     BrowserAnimationsModule
   ],
   providers: [
-    { provide: RouterStateSerializer, useClass: UrlRouterStateSerializer },
     AuthenticationService,
     PinDataService,
     LoaderService,

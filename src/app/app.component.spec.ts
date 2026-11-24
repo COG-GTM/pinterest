@@ -5,7 +5,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
-import { ToasterService } from 'angular2-toaster/angular2-toaster';
+import { ToasterService } from 'angular2-toaster';
 import { MockStore } from '../testing/mock-store';
 import { AppComponent } from './app.component';
 

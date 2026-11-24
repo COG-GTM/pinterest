@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { AppState, getProgressStatus, getNotifications } from './reducers/index';
 import { ShowProgressAction, CompleteProgressAction } from './actions/notification';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
-import {ToasterService, ToasterConfig} from 'angular2-toaster/angular2-toaster';
+import {ToasterService, ToasterConfig} from 'angular2-toaster';
 
 declare var $:any;
 
