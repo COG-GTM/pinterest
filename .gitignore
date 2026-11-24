@@ -39,3 +39,5 @@ mock-api/node_modules
 parity/node_modules
 parity/test-results
 parity/playwright-report
+parity/report/shots
+parity/report/results.json
