@@ -16,7 +16,6 @@ import * as comment from '../../../actions/comment';
 import { User } from '../../../models/user';
 import { Comment } from '../../../models/comment';
 import { FormBuilder } from '@angular/forms';
-import { go } from '@ngrx/router-store';
 
 declare var $: any;
 declare var Foundation: any;
@@ -109,7 +108,7 @@ export class PinDetailComponent implements OnInit {
   }
 
   onEditPin() {
-    this.store.dispatch(go(`/pins/${this.pinIndex}/edit`));
+    this.router.navigateByUrl(`/pins/${this.pinIndex}/edit`);
   }
 
 }

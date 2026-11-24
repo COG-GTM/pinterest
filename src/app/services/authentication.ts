@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
-import { AngularFire, AuthProviders, AngularFireDatabase } from 'angularfire2';
+import { Injectable, NgZone } from '@angular/core';
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
 import { User } from '../models/user';
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../environments/environment';
@@ -11,25 +12,28 @@ export class AuthenticationService {
   userAuth: Observable<any>;
 
   constructor(
-    public af: AngularFire,
-    public db: AngularFireDatabase,
     public http: HttpService,
+    private zone: NgZone,
   ) {
-    this.userAuth = this.af.auth.map(
+    const authState = new Observable<firebase.User>(observer =>
+      firebase.auth().onAuthStateChanged(
+        user => this.zone.run(() => observer.next(user)),
+        error => this.zone.run(() => observer.error(error))
+      )
+    );
+    this.userAuth = authState.map(
       user => this._changeState(user),
       error => console.trace(error),
     );
   };
 
   login(from: string) {
-    this.af.auth.login({
-      provider: this._getProvider(from)
-    });
+    firebase.auth().signInWithPopup(this._getProvider(from)).catch(error => console.trace(error));
     return this.userAuth
   }
 
   logout() {
-    this.af.auth.logout();
+    firebase.auth().signOut();
     localStorage.removeItem('access_token')
     return this.userAuth;
   }
@@ -95,22 +99,22 @@ export class AuthenticationService {
     if(!user) {
       return {};
     }
-    let data = user.auth.providerData[0];
+    let data = user.providerData[0];
     return {
       name: data.displayName,
       avatar: data.photoURL,
       email: data.email,
       provider: data.providerId,
-      uid: user.auth.uid
+      uid: user.uid
     };
   }
 
   private _getProvider(from: string) {
     switch(from){
-      case 'twitter': return AuthProviders.Twitter;
-      case 'facebook': return AuthProviders.Facebook;
-      case 'github': return AuthProviders.Github;
-      case 'google': return AuthProviders.Google;
+      case 'twitter': return new firebase.auth.TwitterAuthProvider();
+      case 'facebook': return new firebase.auth.FacebookAuthProvider();
+      case 'github': return new firebase.auth.GithubAuthProvider();
+      case 'google': return new firebase.auth.GoogleAuthProvider();
     }
   }
 }

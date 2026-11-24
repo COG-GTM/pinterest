@@ -11,7 +11,7 @@ import { Toastr } from '../models/toastr';
 @Injectable()
 export class NotificationEffects {
   constructor(
-    private actions$: Actions,
+    private actions$: Actions<any>,
     private store: Store<AppState>
   ) {}
 

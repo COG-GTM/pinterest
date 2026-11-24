@@ -7,7 +7,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as pin from '../../../actions/pin';
 import { Observable } from 'rxjs/Observable';
 import { User } from '../../../models/user';
-import { replace } from '@ngrx/router-store';
 
 declare var $: any;
 declare var Foundation: any;
@@ -90,7 +89,7 @@ export class PinEditComponent implements OnInit, AfterViewInit {
   }
 
   closeModal() {
-    this.store.dispatch(replace(['']));
+    this.router.navigate([''], { replaceUrl: true });
     $('body').toggleClass('is-reveal-open');
   }
 

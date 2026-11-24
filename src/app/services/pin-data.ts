@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from 'angularfire2';
 import { User } from '../models/user';
 import { Observable } from 'rxjs/Observable';
 import * as fromPins from '../reducers/pins';
@@ -19,7 +18,6 @@ export class PinDataService {
   searchQuery: string;
 
   constructor(
-    public db: AngularFireDatabase,
     public http: HttpService,
     public store: Store<AppState>,
     private phoenixChannelService: PhoenixChannelService

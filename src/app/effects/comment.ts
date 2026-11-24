@@ -13,7 +13,7 @@ import { Comment } from '../models/comment';
 @Injectable()
 export class CommentEffects {
   constructor(
-    private actions$: Actions,
+    private actions$: Actions<any>,
     private pinDataService: PinDataService,
     private store: Store<AppState>
   ) {}

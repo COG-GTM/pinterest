@@ -1,10 +1,12 @@
+import './rxjs-operators';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, XHRBackend, RequestOptions } from '@angular/http';
-import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
+import * as firebase from 'firebase/app';
 import { StoreModule, Store } from '@ngrx/store';
-import { RouterStoreModule } from '@ngrx/router-store';
+import { StoreRouterConnectingModule, RouterStateSerializer } from '@ngrx/router-store';
+import { UrlRouterStateSerializer } from './router-state-serializer';
 import { routes, AppRoutes } from './app.routes';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
@@ -12,14 +14,14 @@ import { EffectsModule } from '@ngrx/effects';
 import { MasonryModule } from 'angular2-masonry';
 import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 import {SlimLoadingBarModule} from 'ng2-slim-loading-bar';
-import { TagInputModule } from 'ng2-tag-input';
+import { TagInputModule } from 'ngx-chips';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/shared/header/header.component';
 import { FooterComponent } from './components/shared/footer/footer.component';
 import { AuthenticationService } from './services/authentication';
-import { reducer, AppState } from './reducers/index';
+import { reducers, metaReducers, AppState } from './reducers/index';
 import { UserAuthEffects } from './effects/user-auth';
 import { PinsComponent } from './components/pins/pins.component';
 import { PinItemComponent } from './components/pins/pin-item/pin-item.component';
@@ -47,6 +49,8 @@ export const firebaseConfig = {
   storageBucket: 'pinterest-da3ba.appspot.com',
   messagingSenderId: '1047429115771'
 };
+
+firebase.initializeApp(firebaseConfig);
 
 export function httpInterceptor(
   backend: XHRBackend,
@@ -86,22 +90,11 @@ import 'rxjs/add/observable/of';
     ReactiveFormsModule,
     HttpModule,
     AppRoutes,
-    AngularFireModule.initializeApp(firebaseConfig, {
-      provider: AuthProviders.Google,
-      method: AuthMethods.Popup
-    }),
     RouterModule.forRoot(routes),
-    StoreModule.provideStore(reducer, {
-      router: {
-        path: window.location.pathname + window.location.search
-      }
-    }),
+    StoreModule.forRoot(reducers, { metaReducers }),
     // StoreDevtoolsModule.instrumentOnlyWithExtension(),
-    RouterStoreModule.connectRouter(),
-    EffectsModule.run(UserAuthEffects),
-    EffectsModule.run(PinEffects),
-    EffectsModule.run(CommentEffects),
-    EffectsModule.run(NotificationEffects),
+    StoreRouterConnectingModule,
+    EffectsModule.forRoot([UserAuthEffects, PinEffects, CommentEffects, NotificationEffects]),
     MasonryModule,
     InfiniteScrollModule,
     SlimLoadingBarModule.forRoot(),
@@ -110,6 +103,7 @@ import 'rxjs/add/observable/of';
     BrowserAnimationsModule
   ],
   providers: [
+    { provide: RouterStateSerializer, useClass: UrlRouterStateSerializer },
     AuthenticationService,
     PinDataService,
     LoaderService,

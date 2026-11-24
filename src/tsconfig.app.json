@@ -15,6 +15,10 @@
     "baseUrl": "",
     "types": []
   },
+  "include": [
+    "**/*.ts",
+    "../node_modules/angular2-masonry/**/*.ts"
+  ],
   "exclude": [
     "test.ts",
     "**/*.spec.ts"

@@ -14,7 +14,7 @@ import { Pin } from '../models/pin';
 @Injectable()
 export class PinEffects {
   constructor(
-    private actions$: Actions,
+    private actions$: Actions<any>,
     private pinDataService: PinDataService,
     private store: Store<AppState>
   ) {}

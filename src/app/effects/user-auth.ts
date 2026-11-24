@@ -13,7 +13,7 @@ import { User } from '../models/user';
 @Injectable()
 export class UserAuthEffects {
   constructor(
-    private actions$: Actions,
+    private actions$: Actions<any>,
     private authService: AuthenticationService,
     private store: Store<AppState>
   ) {}
