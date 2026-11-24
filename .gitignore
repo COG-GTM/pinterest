@@ -18,6 +18,7 @@
 .settings/
 
 # misc
+/.angular/cache
 /.sass-cache
 /connect.lock
 /coverage/*
@@ -34,3 +35,10 @@ testem.log
 .DS_Store
 Thumbs.db
 functions/node_modules
+# local mock API + parity suite
+mock-api/node_modules
+parity/node_modules
+parity/test-results
+parity/playwright-report
+parity/report/shots
+parity/report/results.json

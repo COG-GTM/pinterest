@@ -1,40 +1,40 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Component, OnInit, AfterViewInit, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as fromRoot from '../../../reducers';
 import { Store } from '@ngrx/store';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import * as pin from '../../../actions/pin';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { User } from '../../../models/user';
-import { replace } from '@ngrx/router-store';
+import { ModalComponent } from '../../shared/modal/modal.component';
+import { TagInputModule } from 'ngx-chips';
+import { NgClass, UpperCasePipe } from '@angular/common';
 
 declare var $: any;
 declare var Foundation: any;
 
 @Component({
-  selector: 'pin-pin-edit',
-  templateUrl: './pin-edit.component.html',
-  styleUrls: ['./pin-edit.component.scss']
+    selector: 'pin-pin-edit',
+    templateUrl: './pin-edit.component.html',
+    styleUrls: ['./pin-edit.component.scss'],
+    imports: [ModalComponent, FormsModule, ReactiveFormsModule, TagInputModule, NgClass, UpperCasePipe]
 })
 export class PinEditComponent implements OnInit, AfterViewInit {
-  pinForm: FormGroup;
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private store = inject<Store<fromRoot.AppState>>(Store);
+  private formBuilder = inject(UntypedFormBuilder);
+
+  pinForm: UntypedFormGroup;
   title: string;
   isNew = true;
   pin: any;
   pinIndex: string;
   subscription: Subscription;
-  authUser: Observable<User>;
+  readonly authUser = toSignal(this.store.select(fromRoot.getAuthUser));
   pinTags: string[];
-
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private store: Store<fromRoot.AppState>,
-    private formBuilder: FormBuilder
-  ) {
-    this.authUser = this.store.select(fromRoot.getAuthUser);
-  }
 
   ngOnInit() {
     this.loadModal();
@@ -90,7 +90,7 @@ export class PinEditComponent implements OnInit, AfterViewInit {
   }
 
   closeModal() {
-    this.store.dispatch(replace(['']));
+    this.router.navigate([''], { replaceUrl: true });
     $('body').toggleClass('is-reveal-open');
   }
 
@@ -148,12 +148,9 @@ export class PinEditComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onItemUpdate(event) {
-    if (event) {
-      this.pinTags.pop();
-      this.pinTags.push(event.value);
-    }
-    this.pinForm.controls['tags'].setValue(this.pinTags.join(','));
+  onTagsChange(tags: string[]) {
+    this.pinTags = tags;
+    this.pinForm.controls['tags'].setValue(tags.join(','));
   }
 
 }

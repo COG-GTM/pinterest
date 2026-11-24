@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../reducers/index';
 import * as notification from '../actions/notification'
@@ -7,7 +7,8 @@ import { Toastr } from '../models/toastr';
 
 @Injectable()
 export class LoaderService {
-  constructor(private store: Store<AppState>) {}
+  private store = inject<Store<AppState>>(Store);
+
   
   showPreloader(){
     this.store.dispatch(new notification.ShowProgressAction());

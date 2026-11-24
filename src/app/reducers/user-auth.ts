@@ -1,6 +1,6 @@
 import { User } from '../models/user';
 import * as userAuth from '../actions/user-auth';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { createSelector } from 'reselect';
 
 export interface State {

@@ -22,7 +22,10 @@
   </pin-root>
 </body>
 <script>
-  $(document).foundation();
+  // scripts.js is deferred by the application builder: initialise Foundation once it has run
+  document.addEventListener('DOMContentLoaded', function () {
+    $(document).foundation();
+  });
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/service-worker.js').then(function (registration) {
       console.log('Service Worker registered');

@@ -1,27 +1,29 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Pin } from '../../models/pin';
 import { AuthenticationService } from '../../services/authentication';
-import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../reducers';
 import * as pin from '../../actions/pin';
+import { AngularMasonry } from '../../vendor/masonry/masonry';
+import { AngularMasonryBrick } from '../../vendor/masonry/brick';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
+import { PinItemComponent } from './pin-item/pin-item.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'pin-items',
-  templateUrl: './pins.component.html',
-  styleUrls: ['./pins.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'pin-items',
+    templateUrl: './pins.component.html',
+    styleUrls: ['./pins.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [AngularMasonry, AngularMasonryBrick, InfiniteScrollDirective, PinItemComponent, RouterOutlet]
 })
 
 export class PinsComponent implements OnInit {
-  pins: Observable<Pin[]>;
+  private authService = inject(AuthenticationService);
+  private store = inject<Store<fromRoot.AppState>>(Store);
 
-  constructor(
-    private authService: AuthenticationService,
-    private store: Store<fromRoot.AppState>
-  ) {
-    this.pins = this.store.select(fromRoot.getPins);
-  }
+  readonly pins = toSignal(this.store.select(fromRoot.getPins), { initialValue: [] as Pin[] });
 
   ngOnInit() {
     this.loadPins();

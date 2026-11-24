@@ -48,3 +48,7 @@ tag-input{
     box-shadow: inset 1px 1px 4px #ddd;
   }
 }
+// Foundation lays .input-group-field out as a table cell; keep that over ngx-chips' :host { display: block }
+.input-group > tag-input.input-group-field {
+  display: table-cell;
+}

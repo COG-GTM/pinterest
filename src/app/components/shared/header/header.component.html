@@ -26,7 +26,7 @@
             </div>-->
           </div>
         </li>
-        
+
         <li class="large-2 small-2 columns text-right icons-list">
           <div class="large-6 small-6">
             <a href="https://github.com/aviabird/pinterest">
@@ -35,20 +35,24 @@
           </div>
 
           <div class="large-6 small-6">
-            <a [routerLink]="['pins', 'new']" class="new-Pin-btn" *ngIf="(userIsAuthenticated | async)">
-              <span class="fa fa-thumb-tack fa-2x"></span>
-            </a>
+            @if (userIsAuthenticated()) {
+              <a [routerLink]="['pins', 'new']" class="new-Pin-btn">
+                <span class="fa fa-thumb-tack fa-2x"></span>
+              </a>
+            }
 
-            <a (click)="login('google')" class="new-Pin-btn" *ngIf="!(userIsAuthenticated | async)">
-              <span class="fa fa-thumb-tack fa-2x"
-                data-tooltip aria-haspopup="true"
+            @if (!userIsAuthenticated()) {
+              <a (click)="login('google')" class="new-Pin-btn">
+                <span class="fa fa-thumb-tack fa-2x"
+                  data-tooltip aria-haspopup="true"
                 data-disable-hover="false" tabindex="1" title="Login to add a Pin"></span>
-            </a>
+              </a>
+            }
           </div>
         </li>
 
         <li class="large-1 small-1 columns text-right"
-           [ngClass]="{hide: (userIsAuthenticated | async)}">
+          [ngClass]="{hide: userIsAuthenticated()}">
           <ul class="dropdown menu text-center" data-dropdown-menu>
             <li>
               <a [routerLink]="['/']">Login</a>
@@ -63,12 +67,12 @@
             </li>
           </ul>
         </li>
-        
+
         <li class="large-1 small-1 columns text-right"
-            [ngClass]="{hide: !(userIsAuthenticated | async)}">
+          [ngClass]="{hide: !userIsAuthenticated()}">
           <ul class="dropdown menu text-center" data-dropdown-menu>
             <li>
-              <img aria-hidden=true [src]="(user | async)?.avatar" class="avatar"/>
+              <img aria-hidden=true [src]="user()?.avatar" class="avatar"/>
               <ul class="menu vertical">
                 <li class="text-left">
                   <a (click)="logout()">

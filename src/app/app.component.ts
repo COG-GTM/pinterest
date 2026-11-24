@@ -1,33 +1,34 @@
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import { AngularFire, AuthProviders } from 'angularfire2';
-import { Router } from '@angular/router';
+import { Component, ChangeDetectionStrategy, OnInit, inject } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState, getProgressStatus, getNotifications } from './reducers/index';
 import { ShowProgressAction, CompleteProgressAction } from './actions/notification';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
-import {ToasterService, ToasterConfig} from 'angular2-toaster/angular2-toaster';
+import { SlimLoadingBarService } from './vendor/slim-loading-bar';
+import { ToasterService, ToasterConfig, ToastType } from './vendor/toaster';
+import { ToasterContainerComponent } from './vendor/toaster/toaster-container.component';
+import { SlimLoadingBarComponent } from './vendor/slim-loading-bar/slim-loading-bar.component';
+import { HeaderComponent } from './components/shared/header/header.component';
+import { FooterComponent } from './components/shared/footer/footer.component';
 
 declare var $:any;
 
 @Component({
-  selector: 'pin-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'pin-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [ToasterContainerComponent, SlimLoadingBarComponent, HeaderComponent, RouterOutlet, FooterComponent]
 })
 export class AppComponent implements OnInit {
+  router = inject(Router);
+  private store = inject<Store<AppState>>(Store);
+  private slimLoadingBarService = inject(SlimLoadingBarService);
+  private toasterService = inject(ToasterService);
+
   public toasterconfig : ToasterConfig = new ToasterConfig({
     preventDuplicates: true,
     positionClass: 'toast-bottom-right'
   });
-
-  constructor(
-    public router: Router,
-    private store: Store<AppState>,
-    private slimLoadingBarService: SlimLoadingBarService,
-    private toasterService: ToasterService
-  ) {
-  }
 
   ngOnInit() {
     this.afterModalClosed();
@@ -58,7 +59,7 @@ export class AppComponent implements OnInit {
     this.store.select(getNotifications).subscribe(
       notifications => {
         notifications.forEach(toastr => {
-          this.toasterService.pop(toastr.type, toastr.title, toastr.body);
+          this.toasterService.pop(toastr.type as ToastType, toastr.title, toastr.body);
         });
       }
     );

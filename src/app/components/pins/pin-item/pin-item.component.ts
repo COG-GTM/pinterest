@@ -1,35 +1,36 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject, input } from '@angular/core';
 import { Pin } from '../../../models/pin';
 import { User } from '../../../models/user';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../../reducers';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { RouterLink } from '@angular/router';
+import { AsyncPipe, UpperCasePipe } from '@angular/common';
 
 declare var $:any;
 declare var Foundation:any;
 
 @Component({
-  selector: 'pin-pin-item',
-  templateUrl: './pin-item.component.html',
-  styleUrls: ['./pin-item.component.css'],
-  inputs: ['pin'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'pin-pin-item',
+    templateUrl: './pin-item.component.html',
+    styleUrls: ['./pin-item.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [RouterLink, AsyncPipe, UpperCasePipe]
 })
 export class PinItemComponent implements OnInit {
-  pin : Pin;
+  private store = inject<Store<fromRoot.AppState>>(Store);
+
+  readonly pin = input<Pin>();
   user: Observable<User>;
 
-  constructor(private store: Store<fromRoot.AppState>) {
-  }
-
   ngOnInit() {
-    this.user = this.store.select(fromRoot.getUserById(this.pin && this.pin.user_id))
+    this.user = this.store.select(fromRoot.getUserById(this.pin()?.user_id))
   }
 
   onClick() {
     try{
       setTimeout(() => {
-        let el = $('.pinModal-' + this.pin.id);
+        let el = $('.pinModal-' + this.pin().id);
         if (el.length) {
           if (el.data('zfPlugin')) {
             el.foundation('open');
@@ -39,7 +40,7 @@ export class PinItemComponent implements OnInit {
           }
         }
       }, 100);
-    }catch(e){console.log('.pinModal-' + this.pin.id + e)};
+    }catch(e){console.log('.pinModal-' + this.pin().id + e)};
   }
 
 }

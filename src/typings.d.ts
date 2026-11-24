@@ -10,4 +10,4 @@ declare module 'phoenix_js' {
     onClose(callback: any): void;
     channel(topic: any, chanParams?: {}): any;
   }
-}
+}declare module 'masonry-layout';

@@ -1,32 +1,34 @@
-import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {AuthenticationService} from '../../../services/authentication';
 import {User} from '../../../models/user';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../../reducers';
 import * as userAuth from '../../../actions/user-auth';
 import * as fromRoot from '../../../reducers';
-import {Observable} from 'rxjs/Observable';
 import {LoginSuccessAction} from '../../../actions/user-auth';
 import { GetPinsAction, SearchPinAction } from '../../../actions/pin';
+import { RouterLink } from '@angular/router';
+import { TagInputModule } from 'ngx-chips';
+import { FormsModule } from '@angular/forms';
+import { NgClass } from '@angular/common';
 
 @Component({
-  selector: 'pin-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'pin-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [RouterLink, TagInputModule, FormsModule, NgClass]
 })
 
 export class HeaderComponent implements OnInit {
-  title = 'PinWork';
-  user: Observable < User >;
-  userIsAuthenticated: Observable < boolean >;
-  items: string[];
+  private authService = inject(AuthenticationService);
+  private store = inject<Store<AppState>>(Store);
 
-  constructor(private authService: AuthenticationService, private store : Store < AppState >)
-  {
-    this.user = store.select(fromRoot.getAuthUser);
-    this.userIsAuthenticated = store.select(fromRoot.getUserAuthStatus);
-  }
+  title = 'PinWork';
+  readonly user = toSignal(this.store.select(fromRoot.getAuthUser));
+  readonly userIsAuthenticated = toSignal(this.store.select(fromRoot.getUserAuthStatus));
+  items: string[];
 
   ngOnInit() {
     this

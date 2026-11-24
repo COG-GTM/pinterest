@@ -1,7 +1,11 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
+
+import { ReactiveFormsModule } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { MockStore } from '../../../../../testing/mock-store';
 
 import { PinCommentNewComponent } from './pin-comment-new.component';
 
@@ -9,16 +13,20 @@ describe('PinCommentNewComponent', () => {
   let component: PinCommentNewComponent;
   let fixture: ComponentFixture<PinCommentNewComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ PinCommentNewComponent ]
-    })
+    imports: [ReactiveFormsModule, PinCommentNewComponent],
+    providers: [{ provide: Store, useClass: MockStore }],
+    schemas: [NO_ERRORS_SCHEMA]
+})
     .compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PinCommentNewComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('authUser', <any>{ id: 'u1', avatar: '' });
+    fixture.componentRef.setInput('pin', <any>{ id: 'p1' });
     fixture.detectChanges();
   });
 

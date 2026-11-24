@@ -1,0 +1,15 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "target": "ES2022",
+    "module": "es2020",
+    "skipLibCheck": true,
+    "baseUrl": "./",
+    "useDefineForClassFields": false
+  }
+}

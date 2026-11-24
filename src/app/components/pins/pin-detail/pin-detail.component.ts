@@ -1,13 +1,9 @@
-import {
-  Component, OnInit, ChangeDetectionStrategy, trigger,
-  state,
-  style,
-  transition,
-  animate
-} from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { AfterViewInit, Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { trigger, state, style, transition, animate } from '@angular/animations';
+import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Pin } from '../../../models/pin';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../../reducers';
@@ -15,53 +11,50 @@ import * as pin from '../../../actions/pin';
 import * as comment from '../../../actions/comment';
 import { User } from '../../../models/user';
 import { Comment } from '../../../models/comment';
-import { FormBuilder } from '@angular/forms';
-import { go } from '@ngrx/router-store';
+import { UntypedFormBuilder } from '@angular/forms';
+import { ModalComponent } from '../../shared/modal/modal.component';
+import { PinCommentComponent } from './pin-comment/pin-comment.component';
+import { PinCommentNewComponent } from './pin-comment-new/pin-comment-new.component';
 
 declare var $: any;
 declare var Foundation: any;
 
 @Component({
-  selector: 'pin-pin-detail',
-  templateUrl: './pin-detail.component.html',
-  styleUrls: ['./pin-detail.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    trigger('flyInRight', [
-      state('in', style({ transform: 'translateX(0)', 'z-index': 0 })),
-      transition('void => *', [
-        style({ transform: 'translateX(-50%)', opacity: 0, 'z-index': -999 }),
-        animate(500)
-      ])
-    ]),
-    trigger('flyInDown', [
-      state('in', style({ transform: 'translateY(0)', 'z-index': 0 })),
-      transition('void => *', [
-        style({ transform: 'translateY(100%)', opacity: 0, 'z-index': -999 }),
-        animate(500)
-      ])
-    ])
-  ]
+    selector: 'pin-pin-detail',
+    templateUrl: './pin-detail.component.html',
+    styleUrls: ['./pin-detail.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    animations: [
+        trigger('flyInRight', [
+            state('in', style({ transform: 'translateX(0)', 'z-index': 0 })),
+            transition('void => *', [
+                style({ transform: 'translateX(-50%)', opacity: 0, 'z-index': -999 }),
+                animate(500)
+            ])
+        ]),
+        trigger('flyInDown', [
+            state('in', style({ transform: 'translateY(0)', 'z-index': 0 })),
+            transition('void => *', [
+                style({ transform: 'translateY(100%)', opacity: 0, 'z-index': -999 }),
+                animate(500)
+            ])
+        ])
+    ],
+    imports: [ModalComponent, PinCommentComponent, PinCommentNewComponent]
 })
-export class PinDetailComponent implements OnInit {
+export class PinDetailComponent implements OnInit, AfterViewInit {
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private store = inject<Store<fromRoot.AppState>>(Store);
+  private formBuilder = inject(UntypedFormBuilder);
+
   subscription: Subscription;
   pinIndex: string;
-  pin: Observable<Pin>;
-  comments: Observable<Comment[]>;
-  authUser: Observable<User>;
-  canAccessPin: Observable<boolean>;
-
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private store: Store<fromRoot.AppState>,
-    private formBuilder: FormBuilder
-  ) {
-    this.pin = this.store.select(fromRoot.getSelectedPin);
-    this.comments = this.store.select(fromRoot.getSelectedPinComments);
-    this.authUser = this.store.select(fromRoot.getAuthUser);
-    this.canAccessPin = this.store.select(fromRoot.getPinAccessStatus);
-  }
+  private pin$: Observable<Pin> = this.store.select(fromRoot.getSelectedPin);
+  readonly pin = toSignal(this.pin$);
+  readonly comments = toSignal(this.store.select(fromRoot.getSelectedPinComments), { initialValue: [] as Comment[] });
+  readonly authUser = toSignal(this.store.select(fromRoot.getAuthUser));
+  readonly canAccessPin = toSignal(this.store.select(fromRoot.getPinAccessStatus));
 
   ngOnInit() {
     this.subscription = this.route.params.subscribe(
@@ -79,21 +72,26 @@ export class PinDetailComponent implements OnInit {
   }
 
   loadModal() {
-    this.pin.subscribe(
-      pin => {
-        try {
-          let el = $(`.pinModal-${this.pinIndex}`);
-          if (el.length) {
-            if (el.data('zfPlugin')) {
-              el.foundation('open');
-            } else {
-              new Foundation.Reveal(el);
-              el.foundation('open');
-            }
-          }
-        } catch (e) { console.log(e); };
+    this.pin$.subscribe(() => this.openModal());
+  }
+
+  // The route is lazy: the card's click handler can fire before this view exists, so open again once it does
+  ngAfterViewInit() {
+    this.openModal();
+  }
+
+  private openModal() {
+    try {
+      let el = $(`.pinModal-${this.pinIndex}`);
+      if (el.length) {
+        if (el.data('zfPlugin')) {
+          el.foundation('open');
+        } else {
+          new Foundation.Reveal(el);
+          el.foundation('open');
+        }
       }
-    );
+    } catch (e) { console.log(e); };
   }
 
   onCommentDelete(id) {
@@ -109,7 +107,7 @@ export class PinDetailComponent implements OnInit {
   }
 
   onEditPin() {
-    this.store.dispatch(go(`/pins/${this.pinIndex}/edit`));
+    this.router.navigateByUrl(`/pins/${this.pinIndex}/edit`);
   }
 
 }

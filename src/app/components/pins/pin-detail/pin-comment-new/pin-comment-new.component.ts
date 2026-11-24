@@ -1,30 +1,27 @@
 import { User } from './../../../../models/user';
 import { Pin } from './../../../../models/pin';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Component, OnInit, Input } from '@angular/core';
+import { UntypedFormGroup, UntypedFormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, OnInit, inject, input } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import * as fromRoot from '../../../../reducers';
 import * as comment from '../../../../actions/comment';
 
 @Component({
-  selector: 'pin-pin-comment-new',
-  templateUrl: './pin-comment-new.component.html',
-  styleUrls: ['./pin-comment-new.component.scss']
+    selector: 'pin-pin-comment-new',
+    templateUrl: './pin-comment-new.component.html',
+    styleUrls: ['./pin-comment-new.component.scss'],
+    imports: [FormsModule, ReactiveFormsModule]
 })
 export class PinCommentNewComponent implements OnInit {
-  commentForm: FormGroup;
-  userIsAuthenticated: Observable<boolean>;
-  @Input() authUser: User;
-  @Input() pin: Pin;
+  private store = inject<Store<fromRoot.AppState>>(Store);
+  private formBuilder = inject(UntypedFormBuilder);
 
+  commentForm: UntypedFormGroup;
+  readonly userIsAuthenticated = toSignal(this.store.select(fromRoot.getUserAuthStatus));
+  readonly authUser = input.required<User>();
+  readonly pin = input.required<Pin>();
 
-  constructor(
-    private store: Store<fromRoot.AppState>,
-    private formBuilder: FormBuilder
-  ) {
-    this.userIsAuthenticated = this.store.select(fromRoot.getUserAuthStatus);
-  }
 
   ngOnInit() {
     this.initCommentForm();
@@ -41,8 +38,8 @@ export class PinCommentNewComponent implements OnInit {
   initCommentForm(){
     this.commentForm = this.formBuilder.group({
       message: ['', Validators.required],
-      user_id: [this.authUser.id, Validators.required],
-      pin_id: [this.pin.id, Validators.required]
+      user_id: [this.authUser().id, Validators.required],
+      pin_id: [this.pin().id, Validators.required]
     });
   }
 
