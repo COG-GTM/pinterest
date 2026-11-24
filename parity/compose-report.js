@@ -58,8 +58,11 @@ const icon = s => (s === 'passed' ? 'pass' : s ? s : 'not run');
 
 let md = '# Angular 21 upgrade parity report\n\n';
 md += 'Same Playwright specs run against the original Angular 4 app (`baseline`, :4000) and the upgraded app (`upgraded`, :4200), each backed by its own fresh mock API.\n\n';
-md += `| Project | Passed | Failed |\n|---|---|---|\n`;
-for (const p of ['baseline', 'upgraded']) md += `| ${p} | ${count(p, 'passed')} | ${tests.length - count(p, 'passed')} |\n`;
+md += `| Project | Passed | Failed | Not run |\n|---|---|---|---|\n`;
+for (const p of ['baseline', 'upgraded']) {
+  const ran = Object.keys(results[p] || {}).length;
+  md += `| ${p} | ${count(p, 'passed')} | ${ran - count(p, 'passed')} | ${tests.length - ran} |\n`;
+}
 md += '\n## Tests\n\n| Test | Baseline | Upgraded |\n|---|---|---|\n';
 for (const t of tests) md += `| ${t} | ${icon(results.baseline[t])} | ${icon(results.upgraded[t])} |\n`;
 md += '\n## Screenshots (baseline left, upgraded right)\n\n| Page | Pixel diff | Size (baseline / upgraded) |\n|---|---|---|\n';

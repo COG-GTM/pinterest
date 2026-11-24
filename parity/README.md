@@ -15,10 +15,10 @@ PORT=4201 node mock-api/server.js &
 
 # baseline app (Node 6, Angular CLI 1.x)
 git worktree add ../pinterest-baseline 6639d2f
-cd ../pinterest-baseline && npm install && \
-  ./node_modules/.bin/ng serve --port 4000 --proxy-config ../pinterest/parity/proxy.baseline.json
+(cd ../pinterest-baseline && npm install && \
+  ./node_modules/.bin/ng serve --port 4000 --proxy-config ../pinterest/parity/proxy.baseline.json) &
 
-# upgraded app
+# upgraded app (Node >= 22.22)
 npx ng serve --port 4200 --proxy-config parity/proxy.upgraded.json
 
 # suite + side-by-side report (parity/report/README.md)
