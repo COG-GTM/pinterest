@@ -1,7 +1,5 @@
-import { AppComponent } from './app.component';
+import { Routes } from '@angular/router';
 import { PinsComponent } from './components/pins/pins.component';
-import { NgModule }             from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
 import { PINS_ROUTES } from './components/pins/pins.routes';
 
 export const routes: Routes = [
@@ -16,10 +14,3 @@ export const routes: Routes = [
     children: PINS_ROUTES
   }
 ];
-
-@NgModule({
-  imports: [ RouterModule.forRoot(routes, {}) ],
-  exports: [ RouterModule ]
-})
-
-export class AppRoutes {}

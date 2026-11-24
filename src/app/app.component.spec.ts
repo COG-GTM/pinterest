@@ -3,6 +3,7 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
+import { RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { SlimLoadingBarService } from './vendor/slim-loading-bar';
 import { ToasterService } from './vendor/toaster';
@@ -12,8 +13,7 @@ import { AppComponent } from './app.component';
 describe('AppComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-    declarations: [AppComponent],
-    imports: [RouterTestingModule],
+    imports: [RouterTestingModule, AppComponent],
     providers: [
         { provide: Store, useClass: MockStore },
         SlimLoadingBarService,
@@ -21,6 +21,9 @@ describe('AppComponent', () => {
     ],
     schemas: [NO_ERRORS_SCHEMA]
 });
+    TestBed.overrideComponent(AppComponent, {
+      set: { imports: [RouterOutlet], schemas: [NO_ERRORS_SCHEMA] }
+    });
   });
 
   it('should create the app', waitForAsync(() => {

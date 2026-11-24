@@ -1,10 +1,14 @@
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState, getProgressStatus, getNotifications } from './reducers/index';
 import { ShowProgressAction, CompleteProgressAction } from './actions/notification';
 import { SlimLoadingBarService } from './vendor/slim-loading-bar';
 import { ToasterService, ToasterConfig, ToastType } from './vendor/toaster';
+import { ToasterContainerComponent } from './vendor/toaster/toaster-container.component';
+import { SlimLoadingBarComponent } from './vendor/slim-loading-bar/slim-loading-bar.component';
+import { HeaderComponent } from './components/shared/header/header.component';
+import { FooterComponent } from './components/shared/footer/footer.component';
 
 declare var $:any;
 
@@ -13,7 +17,7 @@ declare var $:any;
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    imports: [ToasterContainerComponent, SlimLoadingBarComponent, HeaderComponent, RouterOutlet, FooterComponent]
 })
 export class AppComponent implements OnInit {
   public toasterconfig : ToasterConfig = new ToasterConfig({
