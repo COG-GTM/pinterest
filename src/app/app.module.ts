@@ -81,7 +81,7 @@ import 'rxjs/add/observable/of';
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutes,
-    RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
+    RouterModule.forRoot(routes, {}),
     StoreModule.forRoot(reducers, { metaReducers, runtimeChecks: { strictStateImmutability: true, strictActionImmutability: false } }),
     // StoreDevtoolsModule.instrumentOnlyWithExtension(),
     StoreRouterConnectingModule.forRoot({ serializer: UrlRouterStateSerializer }),

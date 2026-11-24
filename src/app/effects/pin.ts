@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { debounceTime, map, switchMap } from 'rxjs/operators';
 import { Action, Store } from '@ngrx/store';
@@ -18,7 +18,7 @@ export class PinEffects {
     private store: Store<AppState>
   ) {}
 
-  @Effect() getPins$: Observable<Action> = this.actions$.pipe(
+  getPins$ = createEffect((): Observable<Action> => this.actions$.pipe(
     ofType<any>(pin.ActionTypes.GET_PINS),
     map(action => action.payload),
     debounceTime(400),
@@ -29,9 +29,9 @@ export class PinEffects {
       return pins
     }),
     map(pins => new pin.GetPinsSuccessAction(pins))
-  );
+  ));
   
-  @Effect() getPin$: Observable<Action> = this.actions$.pipe(
+  getPin$ = createEffect((): Observable<Action> => this.actions$.pipe(
     ofType<any>(pin.ActionTypes.GET_SELECTED_PIN),
     map(action => action.payload),
     switchMap((id) => this.pinDataService.getPin(id)),
@@ -41,27 +41,27 @@ export class PinEffects {
       return pin
     }),
     map(_pin => new pin.GetSelectedPinSuccessAction(_pin))
-  );
+  ));
 
-  @Effect() addPin$: Observable<Action> = this.actions$.pipe(
+  addPin$ = createEffect((): Observable<Action> => this.actions$.pipe(
     ofType<any>(pin.ActionTypes.ADD_PIN),
     map(action => action.payload),
     switchMap((_pin: Pin) => this.pinDataService.addPin(_pin)),
     map((_pin) => new pin.AddPinSuccessAction(_pin))
-  );
+  ));
   
-  @Effect() savePin$: Observable<Action> = this.actions$.pipe(
+  savePin$ = createEffect((): Observable<Action> => this.actions$.pipe(
     ofType<any>(pin.ActionTypes.SAVE_PIN),
     map(action => action.payload),
     switchMap((_pin: Pin) => this.pinDataService.savePin(_pin)),
     map((_pin) => new pin.SavePinSuccessAction(_pin))
-  );
+  ));
 
-  @Effect() deletePin$: Observable<Action> = this.actions$.pipe(
+  deletePin$ = createEffect((): Observable<Action> => this.actions$.pipe(
     ofType<any>(pin.ActionTypes.DELETE_PIN),
     map(action => action.payload),
     switchMap((id: string) => this.pinDataService.deletePin(id)),
     map((id) => new pin.DeletePinSuccessAction(id))
-  );
+  ));
 
 }

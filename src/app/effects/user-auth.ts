@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AuthenticationService } from '../services/authentication';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
@@ -17,7 +17,7 @@ export class UserAuthEffects {
     private store: Store<AppState>
   ) {}
 
-  @Effect() login$: Observable<Action> = this.actions$.pipe(
+  login$ = createEffect((): Observable<Action> => this.actions$.pipe(
     ofType<any>(userAuth.ActionTypes.LOGIN),
     map((action: userAuth.LoginAction) => action.payload),
     switchMap((provider) => this.authService.login(provider)),
@@ -31,16 +31,16 @@ export class UserAuthEffects {
       return payload;
     }),
     map((payload) => new userAuth.LoginSuccessAction(payload))
-  );
+  ));
   
-  @Effect() logout$: Observable<Action> = this.actions$.pipe(
+  logout$ = createEffect((): Observable<Action> => this.actions$.pipe(
     ofType<any>(userAuth.ActionTypes.LOGOUT),
     switchMap(() => this.authService.logout()),
     filter((payload) => payload.user == null),
     map((payload) => new userAuth.LogoutSuccessAction(payload))
-  );
+  ));
   
-  @Effect() checkAuth$: Observable<Action> = this.actions$.pipe(
+  checkAuth$ = createEffect((): Observable<Action> => this.actions$.pipe(
     ofType<any>(userAuth.ActionTypes.CHECK_AUTH),
     switchMap(() => this.authService.authStatus()),
     filter((payload) => payload.user != null),
@@ -52,9 +52,9 @@ export class UserAuthEffects {
       return payload;
     }),
     map((payload) => new userAuth.CheckAuthSuccessAction(payload))
-  );
+  ));
   
-  @Effect() findUsers$: Observable<Action> = this.actions$.pipe(
+  findUsers$ = createEffect((): Observable<Action> => this.actions$.pipe(
     ofType<any>(userAuth.ActionTypes.FIND_USERS),
     map((action) => action.payload),
     filter(payload => {
@@ -64,5 +64,5 @@ export class UserAuthEffects {
     switchMap((ids) => this.authService.findbyIds(ids)),
     filter((users) =>  users.length > 0),
     map((users: User[]) => new userAuth.FindUsersSuccessAction(users))
-  );
+  ));
 }

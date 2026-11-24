@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Action, Store } from '@ngrx/store';
@@ -14,20 +14,20 @@ export class NotificationEffects {
     private store: Store<AppState>
   ) {}
 
-  @Effect() showProgress$: Observable<Action> = this.actions$.pipe(
+  showProgress$ = createEffect((): Observable<Action> => this.actions$.pipe(
     ofType<any>(notification.ActionTypes.SHOW_PROGRESS),
     map(() => new notification.ShowProgressSuccessAction())
-  );
+  ));
   
-  @Effect() completeProgress$: Observable<Action> = this.actions$.pipe(
+  completeProgress$ = createEffect((): Observable<Action> => this.actions$.pipe(
     ofType<any>(notification.ActionTypes.COMPLETE_PROGRESS),
     map(() => new notification.CompleteProgressSuccessAction())
-  );
+  ));
 
-  @Effect() showNotification$: Observable<Action> = this.actions$.pipe(
+  showNotification$ = createEffect((): Observable<Action> => this.actions$.pipe(
     ofType<any>(notification.ActionTypes.POP_NOTIFICATION),
     map(action => action.payload),
     map((toastr: Toastr) => new notification.PopNotificationSuccessAction(toastr))
-  );
+  ));
 
 }
