@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import firebase from 'firebase/compat/app';
 import { StoreModule, Store } from '@ngrx/store';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
@@ -54,47 +54,41 @@ firebase.initializeApp(firebaseConfig);
 
 // adding rx operators
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    FooterComponent,
-    PinsComponent,
-    PinItemComponent,
-    PinDetailComponent,
-    ModalComponent,
-    PinEditComponent,
-    PinCommentComponent,
-    PinCommentNewComponent
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    AppRoutes,
-    RouterModule.forRoot(routes, {}),
-    StoreModule.forRoot(reducers, { metaReducers, runtimeChecks: { strictStateImmutability: true, strictActionImmutability: false } }),
-    // StoreDevtoolsModule.instrumentOnlyWithExtension(),
-    StoreRouterConnectingModule.forRoot({ serializer: UrlRouterStateSerializer }),
-    EffectsModule.forRoot([UserAuthEffects, PinEffects, CommentEffects, NotificationEffects]),
-    MasonryModule,
-    InfiniteScrollModule,
-    SlimLoadingBarModule.forRoot(),
-    ToasterModule,
-    TagInputModule,
-    BrowserAnimationsModule
-  ],
-  providers: [
-    AuthenticationService,
-    PinDataService,
-    LoaderService,
-    HttpService,
-    ToasterService,
-    CanActivateViaAuthGuard,
-    CanEditPinGuard,
-    PhoenixChannelService
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        HeaderComponent,
+        FooterComponent,
+        PinsComponent,
+        PinItemComponent,
+        PinDetailComponent,
+        ModalComponent,
+        PinEditComponent,
+        PinCommentComponent,
+        PinCommentNewComponent
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        FormsModule,
+        ReactiveFormsModule,
+        AppRoutes,
+        RouterModule.forRoot(routes, {}),
+        StoreModule.forRoot(reducers, { metaReducers, runtimeChecks: { strictStateImmutability: true, strictActionImmutability: false } }),
+        // StoreDevtoolsModule.instrumentOnlyWithExtension(),
+        StoreRouterConnectingModule.forRoot({ serializer: UrlRouterStateSerializer }),
+        EffectsModule.forRoot([UserAuthEffects, PinEffects, CommentEffects, NotificationEffects]),
+        MasonryModule,
+        InfiniteScrollModule,
+        SlimLoadingBarModule.forRoot(),
+        ToasterModule,
+        TagInputModule,
+        BrowserAnimationsModule], providers: [
+        AuthenticationService,
+        PinDataService,
+        LoaderService,
+        HttpService,
+        ToasterService,
+        CanActivateViaAuthGuard,
+        CanEditPinGuard,
+        PhoenixChannelService,
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule { }
