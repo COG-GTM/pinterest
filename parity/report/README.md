@@ -28,16 +28,16 @@ Same Playwright specs run against the original Angular 4 app (`baseline`, :4000)
 
 | Page | Pixel diff | Size (baseline / upgraded) |
 |---|---|---|
-| [01-home.png](side-by-side/01-home.png) | 0.00% | 1325x3142 / 1325x3142 |
-| [02-infinite-scroll.png](side-by-side/02-infinite-scroll.png) | 0.00% | 1325x4073 / 1325x4073 |
-| [03-search-food.png](side-by-side/03-search-food.png) | 0.00% | 1325x1728 / 1325x1728 |
-| [04-pin-detail.png](side-by-side/04-pin-detail.png) | 0.00% | 1325x3142 / 1325x3142 |
-| [05-pin-deep-link.png](side-by-side/05-pin-deep-link.png) | 1.45% | 1325x3142 / 1325x3142 |
-| [06-signed-in.png](side-by-side/06-signed-in.png) | 0.00% | 1325x3142 / 1325x3142 |
-| [07-create-invalid.png](side-by-side/07-create-invalid.png) | 0.01% | 1325x3142 / 1325x3142 |
-| [08-create-valid.png](side-by-side/08-create-valid.png) | 0.02% | 1325x3142 / 1325x3142 |
-| [09-edit.png](side-by-side/09-edit.png) | 0.00% | 1325x3142 / 1325x3142 |
-| [10-comment-added.png](side-by-side/10-comment-added.png) | 0.00% | 1325x3142 / 1325x3142 |
+| [01-home.png](side-by-side/01-home.png) | 0.09% | 1325x3142 / 1325x3142 |
+| [02-infinite-scroll.png](side-by-side/02-infinite-scroll.png) | 0.02% | 1325x4073 / 1325x4073 |
+| [03-search-food.png](side-by-side/03-search-food.png) | 0.18% | 1325x1728 / 1325x1728 |
+| [04-pin-detail.png](side-by-side/04-pin-detail.png) | 0.03% | 1325x3142 / 1325x3142 |
+| [05-pin-deep-link.png](side-by-side/05-pin-deep-link.png) | 0.03% | 1325x3142 / 1325x3142 |
+| [06-signed-in.png](side-by-side/06-signed-in.png) | 0.09% | 1325x3142 / 1325x3142 |
+| [07-create-invalid.png](side-by-side/07-create-invalid.png) | 0.05% | 1325x3142 / 1325x3142 |
+| [08-create-valid.png](side-by-side/08-create-valid.png) | 0.07% | 1325x3142 / 1325x3142 |
+| [09-edit.png](side-by-side/09-edit.png) | 0.93% | 1325x3142 / 1325x3142 |
+| [10-comment-added.png](side-by-side/10-comment-added.png) | 0.04% | 1325x3142 / 1325x3142 |
 
 ### 01-home.png
 

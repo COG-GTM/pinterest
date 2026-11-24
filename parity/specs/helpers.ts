@@ -105,6 +105,7 @@ export async function openPin(page: Page, name: string) {
 export async function snap(page: Page, testInfo: TestInfo, name: string) {
   const dir = path.join(__dirname, '..', 'report', 'shots', testInfo.project.name);
   fs.mkdirSync(dir, { recursive: true });
+  await page.waitForFunction(() => Array.from(document.images).every(img => img.complete));
   await page.waitForTimeout(600);
   await page.screenshot({ path: path.join(dir, `${name}.png`), fullPage: true, animations: 'disabled' });
 }
