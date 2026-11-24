@@ -3,7 +3,7 @@ import { Pin } from '../../../models/pin';
 import { User } from '../../../models/user';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../../reducers';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 declare var $:any;
 declare var Foundation:any;

@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Pin } from '../../models/pin';
 import { AuthenticationService } from '../../services/authentication';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../reducers';
 import * as pin from '../../actions/pin';

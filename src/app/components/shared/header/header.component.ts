@@ -5,7 +5,7 @@ import {Store} from '@ngrx/store';
 import {AppState} from '../../../reducers';
 import * as userAuth from '../../../actions/user-auth';
 import * as fromRoot from '../../../reducers';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {LoginSuccessAction} from '../../../actions/user-auth';
 import { GetPinsAction, SearchPinAction } from '../../../actions/pin';
 

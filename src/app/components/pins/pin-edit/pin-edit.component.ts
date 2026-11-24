@@ -1,11 +1,11 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as fromRoot from '../../../reducers';
 import { Store } from '@ngrx/store';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import * as pin from '../../../actions/pin';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { User } from '../../../models/user';
 
 declare var $: any;

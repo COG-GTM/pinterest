@@ -1,8 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Pin } from '../../../models/pin';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../../reducers';

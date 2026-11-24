@@ -2,7 +2,8 @@ import { Injectable, NgZone } from '@angular/core';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import { User } from '../models/user';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { ApiUrl } from '../app.api-url';
 import { HttpService } from './http';
@@ -21,9 +22,8 @@ export class AuthenticationService {
         error => this.zone.run(() => observer.error(error))
       )
     );
-    this.userAuth = authState.map(
-      user => this._changeState(user),
-      error => console.trace(error),
+    this.userAuth = authState.pipe(
+      map(user => this._changeState(user))
     );
   };
 
@@ -43,21 +43,23 @@ export class AuthenticationService {
   }
 
   findbyIds(ids: string[]) {
-    return  this.http.get('users')
-      .map((res: any) => res.data)
-      .map(users => users.filter(user => ids.indexOf(user.id) > -1))
-      .map(users => users.map(user => new User(user)))
+    return  this.http.get('users').pipe(
+      map((res: any) => res.data),
+      map(users => users.filter(user => ids.indexOf(user.id) > -1)),
+      map(users => users.map(user => new User(user)))
+    )
   }
 
   findbyUID(id: string){
-    return this.http.get(`users/${id}`)
-      .map((res: any) => res.data)
+    return this.http.get(`users/${id}`).pipe(
+      map((res: any) => res.data)
+    )
   }
 
   getAccessToken(userAuth) {
-    return this.http.post("users/auth", userAuth)
-      .map((res: any) => res)
-      .map(data => {
+    return this.http.post("users/auth", userAuth).pipe(
+      map((res: any) => res),
+      map(data => {
         let token = data.token;
         localStorage.setItem('access_token', token);
 
@@ -66,17 +68,18 @@ export class AuthenticationService {
           user: data.user
         })
       })
+    )
   }
 
   updateUserAuth(userAuth) {
     let user = userAuth.user;
 
-    return this.findbyUID(user.id).map(
-      user => {
+    return this.findbyUID(user.id).pipe(
+      map(user => {
         return Object.assign({}, userAuth, {
           user: new User(user)
         });
-      }
+      })
     )
   }
 

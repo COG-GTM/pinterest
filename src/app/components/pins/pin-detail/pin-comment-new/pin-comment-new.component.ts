@@ -1,7 +1,7 @@
 import { User } from './../../../../models/user';
 import { Pin } from './../../../../models/pin';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit, Input } from '@angular/core';
 import * as fromRoot from '../../../../reducers';

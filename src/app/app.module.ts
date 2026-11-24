@@ -1,4 +1,3 @@
-import './rxjs-operators';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -12,7 +11,7 @@ import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 // import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { MasonryModule } from './vendor/masonry';
-import { InfiniteScrollModule } from 'angular2-infinite-scroll';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import {SlimLoadingBarModule} from './vendor/slim-loading-bar';
 import { TagInputModule } from 'ngx-chips';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
@@ -34,7 +33,7 @@ import { PinEditComponent } from './components/pins/pin-edit/pin-edit.component'
 import { HttpService } from './services/http';
 import { LoaderService } from './services/loader';
 import { NotificationEffects } from './effects/notification';
-import { ToasterService, ToasterModule } from 'angular2-toaster';
+import { ToasterService, ToasterModule } from './vendor/toaster';
 import { CanActivateViaAuthGuard } from './guards/authenticated';
 import { CanEditPinGuard } from './guards/can-edit-pin';
 import { PhoenixChannelService } from './services/phoenix-channel.service';
@@ -54,13 +53,6 @@ firebase.initializeApp(firebaseConfig);
 
 
 // adding rx operators
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/finally';
-import 'rxjs/add/observable/of';
 
 @NgModule({
   declarations: [
